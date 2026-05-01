@@ -1,0 +1,235 @@
+[gd_scene format=3 uid="uid://bvdt66hfhlpj3"]
+
+[ext_resource type="Script" uid="uid://cjagkfjpsfrqh" path="res://Kitchen.gd" id="1_shjfu"]
+[ext_resource type="Texture2D" uid="uid://5sflp4rcu61w" path="res://kitchen new.jpeg" id="2_gujsr"]
+[ext_resource type="Script" uid="uid://be1io0ujxxm45" path="res://player.gd" id="2_pvymr"]
+[ext_resource type="Texture2D" uid="uid://dhx1mpcm20uei" path="res://addons/bluebrains_character_controller/character idle.png" id="3_i5ktm"]
+[ext_resource type="Script" uid="uid://dkmcy2gknqyf3" path="res://cold_storage.gd" id="4_fn2rm"]
+[ext_resource type="Script" uid="uid://cuhovvp0fkp7x" path="res://fridge.gd" id="4_relra"]
+[ext_resource type="Script" uid="uid://1uxwa25wutc0" path="res://dining_table.gd" id="5_bcobm"]
+[ext_resource type="Texture2D" uid="uid://xe2h8lhn7rsw" path="res://addons/bluebrains_character_controller/character walk 1.png" id="5_gujsr"]
+[ext_resource type="Script" uid="uid://pdtogdkfrnir" path="res://sink.gd" id="5_relra"]
+[ext_resource type="Texture2D" uid="uid://5800hpm2d7rf" path="res://addons/bluebrains_character_controller/character walk 2.png" id="6_cirqg"]
+[ext_resource type="Script" uid="uid://dyetl8v8tc6xh" path="res://bedroom_door.gd" id="6_pvymr"]
+[ext_resource type="Script" uid="uid://c4ijb0is0y317" path="res://stove.gd" id="7_relra"]
+[ext_resource type="Texture2D" uid="uid://cq6vewwfxuivu" path="res://addons/bluebrains_character_controller/character walk 3.png" id="7_sxwlm"]
+[ext_resource type="Script" uid="uid://cuyx00nnk7y1c" path="res://canvas_layer.gd" id="10_bcobm"]
+[ext_resource type="FontFile" uid="uid://bpa3fb4wgj17j" path="res://addons/Creepster-Regular.ttf" id="11_781an"]
+[ext_resource type="AudioStream" uid="uid://mwj18jlom1hs" path="res://addons/AudioFiles/03 5 min timer.mp3" id="13_v1rad"]
+[ext_resource type="Script" uid="uid://dtkwir2g7rpat" path="res://AudioStreamPlayer.gd" id="14_5yp4l"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7yojt"]
+size = Vector2(111.68953, 139.74512)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dbbex"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_i5ktm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_gujsr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_cirqg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_sxwlm")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g8uxm"]
+size = Vector2(123.00009, 153.38928)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xsyy8"]
+size = Vector2(158.021, 322.74756)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kdutl"]
+size = Vector2(254.60828, 191.95517)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f16ov"]
+size = Vector2(210.42966, 209.85379)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_77hbq"]
+size = Vector2(126.37064, 93.023544)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r0fwo"]
+size = Vector2(154.6535, 110.58157)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0ip1g"]
+size = Vector2(158.4745, 243.26309)
+
+[sub_resource type="LabelSettings" id="LabelSettings_efyc0"]
+
+[node name="Kitchen" type="Node2D" unique_id=1166717659]
+script = ExtResource("1_shjfu")
+
+[node name="kitchen" type="Sprite2D" parent="." unique_id=12137233]
+position = Vector2(576.99994, 331.5)
+scale = Vector2(0.8729198, 0.94209045)
+texture = ExtResource("2_gujsr")
+
+[node name="player" type="CharacterBody2D" parent="kitchen" unique_id=792710424]
+position = Vector2(-648.7375, -343.02686)
+scale = Vector2(1.1461793, 1.0636493)
+floor_max_angle = 0.12391838
+script = ExtResource("2_pvymr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="kitchen/player" unique_id=81489086]
+position = Vector2(593.8903, 561.9973)
+scale = Vector2(0.9999995, 0.99999976)
+shape = SubResource("RectangleShape2D_7yojt")
+debug_color = Color(0.8901961, 0.9764706, 1, 0.039215688)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="kitchen/player" unique_id=460564567]
+position = Vector2(589.28723, 561.9973)
+scale = Vector2(0.1524756, 0.14027753)
+sprite_frames = SubResource("SpriteFrames_dbbex")
+animation = &"walk"
+
+[node name="InteractionArea" type="Area2D" parent="kitchen/player" unique_id=1060119917]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="kitchen/player/InteractionArea" unique_id=184012598]
+position = Vector2(593.25104, 562.9167)
+scale = Vector2(0.9999997, 0.99999976)
+shape = SubResource("RectangleShape2D_g8uxm")
+debug_color = Color(0, 0.6, 0.69803923, 0.1254902)
+
+[node name="fridge" type="Area2D" parent="kitchen" unique_id=892698680]
+script = ExtResource("4_relra")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="kitchen/fridge" unique_id=1890966985]
+position = Vector2(572.75604, 140.64465)
+shape = SubResource("RectangleShape2D_xsyy8")
+debug_color = Color(0, 0.6, 0.69803923, 0.105882354)
+
+[node name="dining table" type="Area2D" parent="kitchen" unique_id=1067976226]
+script = ExtResource("5_bcobm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="kitchen/dining table" unique_id=509681973]
+position = Vector2(-355.12994, 113.04646)
+shape = SubResource("RectangleShape2D_kdutl")
+debug_color = Color(0, 0.6, 0.69803923, 0.1254902)
+
+[node name="cold storage" type="Area2D" parent="kitchen" unique_id=1861107806]
+script = ExtResource("4_fn2rm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="kitchen/cold storage" unique_id=1802702522]
+position = Vector2(-396.37082, -116.23088)
+shape = SubResource("RectangleShape2D_f16ov")
+debug_color = Color(0, 0.6, 0.69803923, 0.13333334)
+
+[node name="stove" type="Area2D" parent="kitchen" unique_id=1016381072]
+script = ExtResource("7_relra")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="kitchen/stove" unique_id=875135001]
+position = Vector2(7.8408813, -96.931564)
+shape = SubResource("RectangleShape2D_77hbq")
+debug_color = Color(0, 0.6, 0.69803923, 0.17254902)
+
+[node name="sink" type="Area2D" parent="kitchen" unique_id=1588034479]
+script = ExtResource("5_relra")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="kitchen/sink" unique_id=854522736]
+position = Vector2(336.22815, -104.649155)
+shape = SubResource("RectangleShape2D_r0fwo")
+debug_color = Color(0, 0.6, 0.69803923, 0.17254902)
+
+[node name="BEDROOM DOOR" type="Area2D" parent="kitchen" unique_id=124724593]
+script = ExtResource("6_pvymr")
+next_scene = "res://Bedroom.tscn"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="kitchen/BEDROOM DOOR" unique_id=1730769837]
+position = Vector2(-152.36217, -177.7961)
+shape = SubResource("RectangleShape2D_0ip1g")
+debug_color = Color(0, 0.6, 0.69803923, 0.11764706)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=348874604]
+script = ExtResource("10_bcobm")
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=1706620107]
+layout_mode = 3
+anchor_left = 0.031000001
+anchor_top = 0.76600003
+anchor_right = 0.34300002
+anchor_bottom = 0.9250001
+offset_left = 1012.75995
+offset_top = 1607.5465
+offset_right = 693.33594
+offset_bottom = 1544.5145
+metadata/_edit_use_anchors_ = true
+
+[node name="DialogueBox" type="Panel" parent="CanvasLayer/Control" unique_id=140189721]
+visible = false
+modulate = Color(1, 1, 1, 0.91764706)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 2.9310002
+anchor_top = 11.627001
+anchor_right = 9.084001
+anchor_bottom = 13.657001
+offset_left = -1129.7119
+offset_top = -2106.9946
+offset_right = -1010.8319
+offset_bottom = -2051.1946
+
+[node name="DialogueText" type="Label" parent="CanvasLayer/Control/DialogueBox" unique_id=1500027526]
+layout_direction = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -5.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_efyc0")
+autowrap_mode = 3
+clip_text = true
+
+[node name="TimerText" type="Label" parent="CanvasLayer" unique_id=1586513792]
+custom_minimum_size = Vector2(160, 100)
+anchors_preset = -1
+anchor_left = 0.66400003
+anchor_top = 0.062000003
+anchor_right = 0.96000004
+anchor_bottom = 0.37500003
+offset_left = 0.07196045
+offset_top = -0.1760025
+offset_right = -170.42004
+offset_bottom = -101.500015
+grow_horizontal = 0
+scale = Vector2(2, 2)
+tooltip_text = "05:00"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("11_781an")
+theme_override_font_sizes/font_size = 32
+text = "07:00"
+horizontal_alignment = 2
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1503322694]
+stream = ExtResource("13_v1rad")
+volume_db = 16.0
+autoplay = true
+script = ExtResource("14_5yp4l")
+
+[connection signal="area_entered" from="kitchen/player/InteractionArea" to="kitchen/player" method="_on_interaction_area_area_entered"]
+[connection signal="area_exited" from="kitchen/player/InteractionArea" to="kitchen/player" method="_on_interaction_area_area_exited"]
+[connection signal="body_entered" from="kitchen/fridge" to="kitchen/fridge" method="_on_body_entered"]
+[connection signal="body_exited" from="kitchen/fridge" to="kitchen/fridge" method="_on_body_exited"]
+[connection signal="body_entered" from="kitchen/dining table" to="kitchen/dining table" method="_on_body_entered"]
+[connection signal="body_exited" from="kitchen/dining table" to="kitchen/dining table" method="_on_body_exited"]
+[connection signal="body_entered" from="kitchen/cold storage" to="kitchen/cold storage" method="_on_body_entered"]
+[connection signal="body_exited" from="kitchen/cold storage" to="kitchen/cold storage" method="_on_body_exited"]
+[connection signal="body_entered" from="kitchen/stove" to="kitchen/stove" method="_on_body_entered"]
+[connection signal="body_exited" from="kitchen/stove" to="kitchen/stove" method="_on_body_exited"]
+[connection signal="body_entered" from="kitchen/sink" to="kitchen/sink" method="_on_body_entered"]
+[connection signal="body_exited" from="kitchen/sink" to="kitchen/sink" method="_on_body_exited"]
+[connection signal="body_entered" from="kitchen/BEDROOM DOOR" to="kitchen/BEDROOM DOOR" method="_on_body_entered"]
+[connection signal="body_exited" from="kitchen/BEDROOM DOOR" to="kitchen/BEDROOM DOOR" method="_on_body_exited"]
+[connection signal="finished" from="AudioStreamPlayer2D" to="AudioStreamPlayer2D" method="_on_finished"]

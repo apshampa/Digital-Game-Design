@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://lovivnq7vhfc"]
+
+[ext_resource type="Script" uid="uid://dtxvycre2md2h" path="res://EndScreen.gd" id="1_8dv01"]
+[ext_resource type="Texture2D" uid="uid://e60fr75t864b" path="res://addons/bluebrains_character_controller/icons/endscreen.jpeg" id="2_lmk8k"]
+[ext_resource type="AudioStream" uid="uid://cpbj2ltvc8s1r" path="res://tap sound.mp3" id="3_lmk8k"]
+
+[node name="EndScreen" type="Control" unique_id=272294719]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8dv01")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=18685776]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.005
+anchor_bottom = 1.019
+offset_left = -7.0
+offset_top = -7.0
+offset_right = 3.2399902
+offset_bottom = -7.3120117
+mouse_filter = 2
+texture = ExtResource("2_lmk8k")
+expand_mode = 3
+
+[node name="ReplayButton" type="Button" parent="." unique_id=116588191]
+modulate = Color(1, 1, 1, 0.003921569)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.35700002
+anchor_top = 0.582
+anchor_right = 0.64000005
+anchor_bottom = 0.70100003
+offset_left = 11.735962
+offset_top = -0.13601685
+offset_right = -0.2800293
+offset_bottom = -0.24801636
+text = "REPLAY"
+
+[node name="ClickSound" type="AudioStreamPlayer2D" parent="." unique_id=368189562]
+stream = ExtResource("3_lmk8k")
+volume_db = 16.0
+
+[connection signal="pressed" from="ReplayButton" to="." method="_on_replay_button_pressed"]

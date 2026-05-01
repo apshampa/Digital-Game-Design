@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Something Lurks - Telemetry Interface</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="crt-overlay"></div>
+    <div class="container">
+        <!-- Main Cartography Grid Area -->
+        <main class="grid-section">
+            <header class="panel-header">
+                <h2>SECTOR 4 CARTOGRAPHY UPLINK</h2>
+                <div class="status-indicator">
+                    <span class="blinking-dot green"></span> UPLINK STABLE
+                </div>
+            </header>
+
+            <div class="canvas-container">
+                <canvas id="cartography-board" width="600" height="600"></canvas>
+                <!-- Hidden Layer for the Debug Engine Map, toggled via Spacebar (Sonar) -->
+                <canvas id="engine-debug" width="600" height="600"></canvas>
+
+                <!-- Overlays -->
+                <div id="title-screen" class="overlay">
+                    <h1 class="neon">SOMETHING LURKS</h1>
+                    <p style="max-width: 80%; line-height: 1.5; color: #ccc;">
+                        OBJECTIVE: Your remote drone is deposited in a quarantined sector.<br>
+                        Locate 2 missing crew members via sonar, drop pins on their locations to secure their signal, 
+                        and return the drone to the blue spawn point to evacuate.<br>
+                        AVOID THE CLICKING ANOMALY.
+                    </p>
+                    <div style="margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; color: #ccc; font-size: 0.9rem;">
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: purple; border-radius: 50%;"></span>
+                        <span>= Anomaly Warning (Avoid)</span>
+                    </div>
+                    <p class="blink" style="margin-top: 30px; color: var(--neon-green);">Press [ENTER] to Deploy</p>
+                </div>
+
+                <div id="game-over-screen" class="overlay hidden">
+                    <h1 class="crit">SIGNAL LOST</h1>
+                    <p>DRONE CHASSIS DESTROYED</p>
+                    <div class="post-game-stats">
+                        <p id="stat-lose-bumps" style="margin-bottom: 5px;">CHASSIS COLLISIONS: 0</p>
+                        <p id="stat-lose-workers">CREW LOCATED: 0 / 2</p>
+                    </div>
+                    <p class="blink">Press [R] to deploy new unit</p>
+                </div>
+                <div id="game-win-screen" class="overlay hidden">
+                    <h1 class="neon">ESCAPED</h1>
+                    <p>CREW LOCATED AND EVACUATED</p>
+                    <div class="post-game-stats">
+                        <p id="stat-win-bumps" style="margin-bottom: 5px;">CHASSIS COLLISIONS: 0</p>
+                        <p id="stat-win-workers">CREW LOCATED: 0 / 2</p>
+                    </div>
+                    <p class="blink">Press [R] to analyze next sector</p>
+                </div>
+            </div>
+
+            <div class="pin-toolkit">
+                <button class="tool-btn" data-tool="select" id="tool-select">SELECT/DRAG</button>
+                <div class="divider"></div>
+                <button class="tool-btn pin-btn" data-tool="wall" id="tool-wall"><span class="icon red">X</span> WALL /
+                    IMPASSABLE</button>
+                <button class="tool-btn pin-btn" data-tool="worker" id="tool-worker"><span class="icon green">●</span>
+                    CREW SIGNAL</button>
+                <button class="tool-btn pin-btn" data-tool="anomaly" id="tool-anomaly"><span
+                        class="icon yellow">⚠️</span> ANOMALY WARNING</button>
+                <button class="tool-btn" data-tool="erase" id="tool-erase">ERASE PIN</button>
+            </div>
+        </main>
+
+        <!-- Right Side Control Panel -->
+        <aside class="control-section">
+            <header class="panel-header">
+                <h2>DRONE TELEMETRY</h2>
+            </header>
+
+            <div class="power-module">
+                <h3>DRONE POWER RESERVES</h3>
+                <div class="battery-bar">
+                    <div class="battery-fill" id="battery-level" style="width: 100%;"></div>
+                </div>
+                <div class="battery-stats">
+                    <span id="power-percentage">100%</span>
+                    <span class="power-drain-rate">Sys Nominal</span>
+                </div>
+            </div>
+
+            <div class="sonar-module">
+                <h3>ECHOLOCATION MODULE</h3>
+                <p class="help-text">Press [SPACEBAR] to Ping. Use [W][A][S][D] to move unseen Drone. Reveals sewer map
+                    for 3s.</p>
+                <div class="cooldown-bar">
+                    <div class="cooldown-fill" id="sonar-cooldown-fill" style="width: 0%;"></div>
+                </div>
+                <div class="sonar-status" id="sonar-status-text">SONAR READY</div>
+            </div>
+
+            <div class="crew-module">
+                <h3>CREW SIGNALS</h3>
+                <div id="crew-status" style="font-size: 1.8rem; text-align: center; margin-top: 10px; font-weight: bold; color: var(--alert-red);">
+                    0 / 2
+                </div>
+            </div>
+
+            <div class="trap-module">
+                <h3>HYDRAULIC SLUICE GATES</h3>
+                <p class="help-text">Click on the gates on the map to deploy them and slow the anomaly down.</p>
+                <div class="gate-controls" id="gate-controls">
+                    <!-- Gates are activated via the map now -->
+                </div>
+            </div>
+
+            <!-- Terminal Log -->
+            <div class="terminal-module">
+                <h3>SYSTEM LOG</h3>
+                <div id="terminal-log" class="terminal-window">
+                    <div class="log-entry sys">> SYS.INIT: BINDING DRONE 0X-B...</div>
+                    <div class="log-entry sys">> UPLINK ESTABLISHED. VIDEO FEED OFFLINE.</div>
+                    <div class="log-entry warn">> WARNING: AUDIO ONLY. MOVE WITH CARE.</div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- The actual game engine is headless, scripts control both the hidden and visible elements -->
+    <script src="audio.js"></script>
+    <script src="engine.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>

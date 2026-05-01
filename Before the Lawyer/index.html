@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Before the Lawyer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- TITLE SCREEN -->
+  <div id="titleScreen" class="screen">
+    <button id="titleStartBtn" class="primary-btn">CLICK TO START</button>
+  </div>
+
+  <!-- INTRO SCREEN -->
+  <div id="introScreen" class="screen" style="display:none;">
+    <div class="rules-container">
+      <p id="introText"></p>
+    </div>
+    <button id="continueBtn" class="primary-btn bottom-right" style="display:none;">CONTINUE</button>
+  </div>
+
+  <!-- RULES SCREEN -->
+  <div id="rulesScreen" class="screen" style="display:none;">
+    <div class="rules-container">
+      <h2>THE CLOCK DOESN'T CARE!</h2>
+      <p>
+        You have 5 minutes. - Not "about 5." Not "roughly."<br>
+        Exactly 5.<br>
+        When the clock hits zero - the lawyer walks in... and the truth walks out.
+      </p>
+
+      <h3>EVERY CLICK HAS A COST</h3>
+      <p>
+        Curiosity isn't free.<br>
+        Every piece of evidence you open costs you 15 seconds.<br>
+        Every correct question gets you 5 seconds
+      </p>
+
+      <h3>ASK BETTER QUESTIONS</h3>
+      <p>
+        Every clue gives you three ways to ask.<br>
+        Only one of them actually hurts.
+      </p>
+      <ul>
+        <li>The right question cracks him.</li>
+        <li>The wrong ones cost you time.</li>
+      </ul>
+
+      <h3>NOT ALL EVIDENCES ARE RIGHT</h3>
+      <p>
+        Some lead somewhere.<br>
+        Some just... looks important.<br>
+        <span style="color: #a82e2e; font-family: 'Cinzel', serif; font-weight: bold; letter-spacing: 1px;">Go through the Case File</span> to know which ones to choose
+      </p>
+    </div>
+    <button id="toNarrationBtn" class="primary-btn bottom-right">START NEW INVESTIGATION</button>
+  </div>
+
+  <!-- NARRATION SCREEN -->
+  <div id="narrationScreen" class="screen" style="display:none;">
+    <div class="rules-container">
+      <p id="narrationText"></p>
+    </div>
+    <div class="bottom-right" style="display:flex; gap: 15px;">
+      <button id="skipNarrationBtn" class="primary-btn">SKIP</button>
+      <button id="startGameBtn" class="primary-btn" style="display:none;">ENTER INTERROGATION</button>
+    </div>
+  </div>
+
+  <!-- MAIN GAME SCREEN -->
+  <div id="gameScreen" style="display:none;">
+    <!-- Left Panel -->
+    <div id="leftPanel" class="panel">
+      <div>
+        <h3 class="panel-title" style="margin-bottom: 5px;">CASE FILE: #849-V</h3>
+        <p class="subtext" style="font-style: italic; margin-bottom: 20px;">Go through this to avoid wrong evidence</p>
+      </div>
+      
+      <div class="info-block">
+        <span class="label">VICTIM DETAILS</span>
+        <p><strong>Name:</strong> Arjun Malhotra</p>
+        <p><strong>Age:</strong> 42</p>
+        <p><strong>Occupation:</strong> Senior Corporate Lawyer</p>
+        <p><strong>Health:</strong> No known critical conditions</p>
+      </div>
+
+      <div class="info-block">
+        <span class="label">SUSPECT DETAILS</span>
+        <p><strong>Name:</strong> Naina Malhotra</p>
+        <p><strong>Age:</strong> 39</p>
+        <p><strong>Occupation:</strong> Interior Designer</p>
+        <p><strong>Relationship:</strong> Wife</p>
+        <p><strong>Statement:</strong> Claims she found the body after returning from a late client meeting</p>
+      </div>
+
+      <div class="info-block">
+        <span class="label">TIMELINE</span>
+        <ul style="margin-left: 20px; font-size: 14px; line-height: 1.4;">
+          <li>20:00 - Client seen entering</li>
+          <li class="red-highlight">20:24 - Security logs show main door opened (Naina returns)</li>
+          <li>20:40 - Client seen angrily leaving the house</li>
+          <li>21:00 - Victim last seen alive (phone call with colleague)</li>
+          <li>01:50 - Emergency call placed by Naina</li>
+          <li>02:10 - Authorities arrive</li>
+        </ul>
+      </div>
+
+      <div class="info-block">
+        <span class="label">INITIAL OBSERVATIONS</span>
+        <ul style="margin-left: 20px; font-size: 14px; line-height: 1.4;">
+          <li>Body found seated in study chair</li>
+          <li>Whiskey glass untouched</li>
+          <li>No signs of forced entry</li>
+          <li class="red-highlight">Study door was closed and locked</li>
+          <li class="red-highlight">Wall clock stopped at 11:12 PM</li>
+        </ul>
+      </div>
+
+      <div class="info-block">
+        <span class="label">FORENSIC SUMMARY</span>
+        <ul style="margin-left: 20px; font-size: 14px; line-height: 1.4;">
+          <li>Cause of death: Acute poisoning (fast-acting toxin)</li>
+          <li class="red-highlight">Estimated time of death: Between 22:45 – 23:15</li>
+          <li>No external injuries</li>
+          <li>Toxin likely ingested</li>
+        </ul>
+      </div>
+
+      <div class="info-block">
+        <span class="label">KEY INCONSISTENCIES</span>
+        <ul style="margin-left: 20px; font-size: 14px; line-height: 1.4;">
+          <li>Naina claims she "never entered the study room" before calling police</li>
+          <li>Clock stopped within estimated time of death</li>
+          <li class="red-highlight">No fingerprints on whiskey glass except victim's</li>
+          <li class="red-highlight">Poison not found in bottle</li>
+          <li>Victim's phone last used at 11:10 PM, no outgoing activity</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Main Right View wrapping top sections and bottom board -->
+    <div id="mainRightView">
+      <div id="topRightSection">
+        <!-- Center Panel -->
+        <div id="centerPanel" class="panel">
+          <div class="suspect-container">
+            <img src="assets/images/suspect interrogation image_Naina Malhotra.jpeg" alt="Naina Malhotra" id="suspectImg">
+            <div id="suspectDialogue" class="dialogue-box hidden"></div>
+          </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div id="rightPanel" class="panel">
+          <div class="timer-container">
+            <h2>TIMER</h2>
+            <div id="timerDisplay">5:00</div>
+            <div id="penaltyAlert" class="hidden">-15s</div>
+          </div>
+          <div class="logs-container">
+            <h3>LOGS</h3>
+            <ul id="actionLogs">
+              <li>Interrogation started.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Board -->
+      <div id="boardPanel">
+        <h3 class="panel-title">EVIDENCE BOARD</h3>
+        <div id="evidenceGrid">
+          <!-- Generated dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVIDENCE OVERLAY -->
+  <div id="evidenceOverlay" class="overlay hidden">
+    <div class="modal evidence-modal">
+      <div class="modal-header">
+        <h2 id="modalTitle">Title</h2>
+        <button id="closeModalBtn" class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body split-layout">
+        <div class="modal-left">
+          <img id="modalImage" src="" alt="Evidence Image">
+        </div>
+        <div class="modal-right">
+          <p id="modalDesc">Description</p>
+          <div class="questions-container" id="questionsContainer">
+            <!-- buttons here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL LOCK-IN OVERLAY -->
+  <div id="finalOverlay" class="overlay hidden">
+    <div class="modal final-modal">
+      <h2 class="red-text">PRESSURE MAXIMIZED</h2>
+      <p>She is breaking. You just need the final nail.</p>
+      <button id="finalQuestionBtn" class="final-btn">
+        "You didn't poison the drink... it was the ice, wasn't it?"
+      </button>
+    </div>
+  </div>
+
+  <!-- ENDING SCREEN -->
+  <div id="endingScreen" class="screen" style="display:none;">
+    <div id="endingContent" class="rules-container"></div>
+    <div class="ending-actions bottom-right" style="display:flex; gap: 15px;">
+      <!-- Buttons dynamically injected -->
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

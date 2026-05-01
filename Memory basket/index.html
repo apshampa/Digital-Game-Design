@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Basket | Spot It. Store It. Snag It.</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @font-face {
+            font-family: 'Spicy Sale';
+            src: url('doodle images/Spicy Sale.ttf');
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <!-- Floating Doodles (Background) -->
+        <div class="doodle-container">
+            <img src="doodle images/tomato.png" class="doodle d1" alt="">
+            <img src="doodle images/Mushroom.png" class="doodle d2" alt="">
+            <img src="doodle images/chips.png" class="doodle d3" alt="">
+            <img src="doodle images/can.png" class="doodle d4" alt="">
+            <img src="doodle images/corn.png" class="doodle d5" alt="">
+        </div>
+
+        <!-- Global Header Bar -->
+        <div id="game-top-bar" class="top-bar-overlay">
+            <div class="top-left">
+                <img src="doodle images/music.png" alt="Music" class="top-icon music-toggle" id="music-icon">
+            </div>
+            <div class="top-right">
+                <div class="header-stat-container">
+                    <img src="coin.png" alt="Coin" class="stat-coin">
+                    <span id="header-budget">200</span>
+                </div>
+                <div class="header-info-container" id="info-btn" title="How to play?">
+                    <span class="info-icon">?</span>
+                    <div class="info-tooltip">Hover for guide! Click for instructions.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen 1: Loading -->
+        <section id="screen-loading" class="screen active">
+            <div class="content-wrapper">
+                <div class="cloud-container floating">
+                    <img src="doodle images/Memory-Basket.png" alt="Memory Basket" class="title-img">
+                    <img src="doodle images/“Spot it, Store it, Snag it”.png" alt="Spot It. Store It. Snag It" class="subtitle-img">
+                </div>
+                <div class="progress-bar-container">
+                    <div id="loading-progress" class="progress-fill"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screen 2: Instructions -->
+        <section id="screen-instructions" class="screen">
+            <div class="content-wrapper">
+                <div class="instruction-card cloud-big">
+                    <div class="instruction-body">
+                        <p><strong>Goal:</strong> Memorize the grocery list and pick the correct items from the store!</p>
+                        <p><strong>How to Play:</strong> You have 5 seconds to remember the items. Then, find them in the grid.</p>
+                        <p><strong>Rules:</strong> Don't exceed your budget! Each correct item adds to your score.</p>
+                        <p><strong>Win/Lose:</strong> Snag all items to win. If you run out of budget or time, you lose!</p>
+                    </div>
+                    <button id="btn-start-init" class="btn-primary">Got it!</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screen 3: Memory Phase -->
+        <section id="screen-memory" class="screen">
+            <div class="content-wrapper">
+                <div class="level-badge">Level 1</div>
+                
+                <div class="memory-card-new cloud-big">
+                    <p class="instruction-pink">Flash cards will appear for 5 seconds.<br>Memorize the grocery list below.</p>
+                    
+                    <div class="grocery-list-container">
+                        <h2 class="grocery-list-header">Grocery List</h2>
+                        <div class="budget-blue">Budget: ₹200</div>
+                        
+                        <div id="grocery-list" class="list-display">
+                            <!-- List items: milk, bread, tomato, carrot, egg -->
+                        </div>
+                        
+                        <div class="list-total">Total <span id="list-total-price">₹190</span></div>
+                    </div>
+                    
+                    <p class="tagline-pink">Stay sharp. Shop smart!</p>
+                </div>
+                
+                <button id="btn-start-shopping" class="btn-start-shopping">Start Shopping</button>
+            </div>
+        </section>
+
+        <!-- Screen 4: Game Phase -->
+        <section id="screen-game" class="screen">
+            <div class="game-header">
+                <div class="level-badge">Level 1</div>
+                <div id="game-status" class="game-status-msg">Memorize the items. Time left: 5...</div>
+            </div>
+            
+            <div class="game-layout">
+                <!-- Left: Your Cart -->
+                <div class="cart-panel-left">
+                    <div class="cart-title">Your cart</div>
+                    <div class="cart-basket-container">
+                        <img src="images/Memory-Basket.png" alt="Cart" class="cart-basket-bg">
+                        <div id="cart-list" class="cart-items-overlay">
+                            <!-- Selected items icons appear here -->
+                        </div>
+                    </div>
+                    <div class="cart-total-footer">Total: <span id="cart-total">₹0</span></div>
+                </div>
+
+                <!-- Middle: 4x3 Grid -->
+                <div class="grid-panel-center">
+                    <div id="game-grid" class="item-grid-fixed">
+                        <!-- 12 cards injected here -->
+                    </div>
+                </div>
+
+                <!-- Right: Hints -->
+                <div class="hints-panel-right">
+                    <div class="hints-label">Hints</div>
+                    
+                    <div class="hint-btn" id="hint-eye" title="Preview all (3s)">
+                        <span class="hint-icon">👁️</span>
+                        <span class="hint-count" id="count-eye">3</span>
+                    </div>
+                    
+                    <div class="hint-btn" id="hint-list" title="Preview list (3s)">
+                        <span class="hint-icon">📋</span>
+                        <span class="hint-count" id="count-list">3</span>
+                    </div>
+                    
+                    <div class="hint-btn" id="hint-broom" title="Remove wrong itmes(3)">
+                        <span class="hint-icon">🧹</span>
+                        <span class="hint-count" id="count-broom">3</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hint Overlays -->
+            <div id="hint-list-overlay" class="hint-overlay hidden">
+                <div class="overlay-content cloud-small">
+                    <h3>Grocery List Recall</h3>
+                    <div id="recall-list" class="recall-list-container"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screen 5: Results -->
+        <section id="screen-result" class="screen">
+            <div class="content-wrapper">
+                <div class="level-badge">Level 1</div>
+                <div class="receipt-container">
+                    <div class="receipt-header">
+                        <h2 id="result-title">Smart Shopper</h2>
+                    </div>
+                    <div class="receipt-body">
+                        <h3 class="summary-label">Shopping Summary</h3>
+                        
+                        <div class="budget-stats">
+                            <div class="stat-row"><span>Budget:</span><span id="final-budget">₹200</span></div>
+                            <div class="stat-row"><span>Spent:</span><span id="final-spent">₹0</span></div>
+                            <div class="stat-row"><span>Saved:</span><span id="final-saved">₹200</span></div>
+                        </div>
+
+                        <div class="performance-stats">
+                            <div class="stat-row"><span class="label">Essential Items:</span><span id="stat-essential-items">0/5</span></div>
+                            <div class="stat-row"><span class="label">Correct sequence:</span><span id="stat-sequence">0/5</span></div>
+                            <div class="stat-row"><span class="label">Within Budget:</span><span id="stat-within-budget">Yes</span></div>
+                        </div>
+
+                        <div class="receipt-divider"></div>
+                        
+                        <div class="coins-summary">
+                            <div class="coin-display">
+                                <img src="coin.png" alt="Coin" class="result-coin">
+                                <span id="final-coins">0</span> + 
+                                <img src="coin.png" alt="Coin" class="result-coin">
+                                <span id="bonus-coins">0</span>
+                            </div>
+                            <p id="result-msg-small" class="msg-subtext">Perfect recall. Smart choices</p>
+                        </div>
+                    </div>
+                    <button id="btn-result-action" class="btn-primary" style="margin-top: 20px;">Next Level</button>
+                    <div class="receipt-footer-zig"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Background Music -->
+        <audio id="bg-music" loop src="sounds/bg_compressed.mp3"></audio>
+        
+        <!-- Card Click Sound -->
+        <audio id="click-sound" src="sounds/dragon-studio-button-press-382713.mp3"></audio>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

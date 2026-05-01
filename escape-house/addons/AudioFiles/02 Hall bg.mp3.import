@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://ccoji8x58v855"
+path="res://.godot/imported/02 Hall bg.mp3-efd498f195d986e0239fa8cc11a2c1f7.mp3str"
+
+[deps]
+
+source_file="res://addons/AudioFiles/02 Hall bg.mp3"
+dest_files=["res://.godot/imported/02 Hall bg.mp3-efd498f195d986e0239fa8cc11a2c1f7.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

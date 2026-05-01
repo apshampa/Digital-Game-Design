@@ -1,0 +1,271 @@
+[gd_scene format=3 uid="uid://cuk4fq2peh7xv"]
+
+[ext_resource type="Script" uid="uid://ikybd7qcdvqj" path="res://Bedroom.gd" id="1_4l5tu"]
+[ext_resource type="Script" uid="uid://be1io0ujxxm45" path="res://player.gd" id="2_2tlio"]
+[ext_resource type="Script" uid="uid://b3of7fs4uov3o" path="res://wooden_boxes.gd" id="2_c87yd"]
+[ext_resource type="Texture2D" uid="uid://dwrao8qv7w185" path="res://bedroom new.jpeg" id="2_i5yjq"]
+[ext_resource type="Script" uid="uid://cfwso2wtpav7d" path="res://fake_door.gd" id="3_0vv60"]
+[ext_resource type="Script" uid="uid://t14juvasq1sd" path="res://cupboard.gd" id="3_acur5"]
+[ext_resource type="Texture2D" uid="uid://dhx1mpcm20uei" path="res://addons/bluebrains_character_controller/character idle.png" id="3_c87yd"]
+[ext_resource type="Script" uid="uid://ba8smerp1poba" path="res://cage.gd" id="4_0vv60"]
+[ext_resource type="Script" uid="uid://b24rgt13ow4jq" path="res://bed.gd" id="4_fwkpg"]
+[ext_resource type="Script" uid="uid://b6kxwe5cvckh4" path="res://lamp_bedroom.gd" id="4_ofmki"]
+[ext_resource type="Script" uid="uid://bdep7eorje48h" path="res://pillow.gd" id="5_ofmki"]
+[ext_resource type="Script" uid="uid://djlkoscet0m36" path="res://ExitDoor.gd" id="7_38cce"]
+[ext_resource type="Script" uid="uid://cuyx00nnk7y1c" path="res://canvas_layer.gd" id="11_um4ci"]
+[ext_resource type="FontFile" uid="uid://bpa3fb4wgj17j" path="res://addons/Creepster-Regular.ttf" id="12_fenkf"]
+[ext_resource type="Texture2D" uid="uid://xe2h8lhn7rsw" path="res://addons/bluebrains_character_controller/character walk 1.png" id="13_i5yjq"]
+[ext_resource type="Texture2D" uid="uid://5800hpm2d7rf" path="res://addons/bluebrains_character_controller/character walk 2.png" id="14_fqdby"]
+[ext_resource type="AudioStream" uid="uid://mwj18jlom1hs" path="res://addons/AudioFiles/03 5 min timer.mp3" id="14_li1ao"]
+[ext_resource type="Texture2D" uid="uid://cq6vewwfxuivu" path="res://addons/bluebrains_character_controller/character walk 3.png" id="15_h3iv8"]
+[ext_resource type="Script" uid="uid://dtkwir2g7rpat" path="res://AudioStreamPlayer.gd" id="15_idd80"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_acur5"]
+size = Vector2(133.65764, 158.2828)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ofmki"]
+size = Vector2(245.56384, 296.3247)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fwkpg"]
+size = Vector2(299.74927, 169.65297)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_um4ci"]
+radius = 34.511536
+height = 112.1228
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fenkf"]
+size = Vector2(168.58426, 279.31012)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4l5tu"]
+radius = 52.775604
+height = 223.77173
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_li1ao"]
+size = Vector2(134.16624, 246.25275)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_idd80"]
+radius = 47.841553
+height = 155.50623
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0vv60"]
+size = Vector2(100.33346, 141.02396)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4vuqa"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_c87yd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_i5yjq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_fqdby")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_h3iv8")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_af3jj"]
+size = Vector2(100.76959, 147.40604)
+
+[sub_resource type="LabelSettings" id="LabelSettings_38cce"]
+
+[node name="Bedroom" type="Node2D" unique_id=341171257]
+script = ExtResource("1_4l5tu")
+
+[node name="bedroom" type="Sprite2D" parent="." unique_id=411894580]
+position = Vector2(575.25006, 323.5)
+scale = Vector2(0.86788917, 0.8706666)
+texture = ExtResource("2_i5yjq")
+
+[node name="wooden boxes" type="Area2D" parent="bedroom" unique_id=1539132383]
+script = ExtResource("2_c87yd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bedroom/wooden boxes" unique_id=254036898]
+position = Vector2(141.43506, 96.94385)
+scale = Vector2(1.0000002, 0.9999995)
+shape = SubResource("RectangleShape2D_acur5")
+debug_color = Color(0, 0.6, 0.69803923, 0.19607843)
+
+[node name="cupboard" type="Area2D" parent="bedroom" unique_id=369156225]
+script = ExtResource("3_acur5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bedroom/cupboard" unique_id=2048256104]
+position = Vector2(-19.875916, -183.19296)
+scale = Vector2(1, 0.9999998)
+shape = SubResource("RectangleShape2D_ofmki")
+debug_color = Color(0.84720105, 0.3388972, 0.43083787, 0.15686275)
+
+[node name="bed" type="Area2D" parent="bedroom" unique_id=2037707053]
+script = ExtResource("4_fwkpg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bedroom/bed" unique_id=586515746]
+position = Vector2(-469.24203, 106.24041)
+shape = SubResource("RectangleShape2D_fwkpg")
+debug_color = Color(0, 0.6, 0.69803923, 0.14901961)
+
+[node name="lamp bedroom" type="Area2D" parent="bedroom" unique_id=584702582]
+script = ExtResource("4_ofmki")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bedroom/lamp bedroom" unique_id=1036315797]
+position = Vector2(305.05045, -144.14244)
+shape = SubResource("CapsuleShape2D_um4ci")
+debug_color = Color(0.80784315, 0.39215687, 0.36078432, 0.19607843)
+
+[node name="EXIT DOOR" type="Area2D" parent="bedroom" unique_id=707684951]
+script = ExtResource("7_38cce")
+next_scene = "res://EndScreen.tscn"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bedroom/EXIT DOOR" unique_id=1574421270]
+position = Vector2(581.5835, 211.22559)
+scale = Vector2(0.9999998, 0.9999998)
+shape = SubResource("RectangleShape2D_fenkf")
+debug_color = Color(0.7729505, 0.4170439, 0.4024671, 0.19215687)
+
+[node name="pillow" type="Area2D" parent="bedroom" unique_id=195306631]
+script = ExtResource("5_ofmki")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bedroom/pillow" unique_id=976283531]
+position = Vector2(-469.242, -116.57733)
+rotation = 1.4974926
+shape = SubResource("CapsuleShape2D_4l5tu")
+debug_color = Color(0.8650052, 0.33060127, 0.35375643, 0.19607843)
+
+[node name="fake door" type="Area2D" parent="bedroom" unique_id=1231183014]
+script = ExtResource("3_0vv60")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bedroom/fake door" unique_id=1318221759]
+position = Vector2(599.1211, -122.55209)
+scale = Vector2(1.0000002, 1)
+shape = SubResource("RectangleShape2D_li1ao")
+debug_color = Color(0, 0.6, 0.69803923, 0.17254902)
+
+[node name="cage" type="Area2D" parent="bedroom" unique_id=533170748]
+script = ExtResource("4_0vv60")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bedroom/cage" unique_id=1466632381]
+position = Vector2(320.02927, 97.05208)
+shape = SubResource("CapsuleShape2D_idd80")
+debug_color = Color(0, 0.6, 0.69803923, 0.23921569)
+
+[node name="player" type="CharacterBody2D" parent="." unique_id=559775584]
+position = Vector2(-648.7375, -343.02686)
+scale = Vector2(1.1461793, 1.0636493)
+floor_max_angle = 0.12391838
+script = ExtResource("2_2tlio")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player" unique_id=565149356]
+position = Vector2(1098.6392, 862.1516)
+scale = Vector2(0.9999998, 0.9999998)
+shape = SubResource("RectangleShape2D_0vv60")
+debug_color = Color(0.8901961, 0.9764706, 1, 0.039215688)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="player" unique_id=1109726296]
+position = Vector2(1100.8203, 861.2575)
+scale = Vector2(0.15247561, 0.14866222)
+sprite_frames = SubResource("SpriteFrames_4vuqa")
+animation = &"walk"
+
+[node name="InteractionArea" type="Area2D" parent="player" unique_id=8867176]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player/InteractionArea" unique_id=247606679]
+position = Vector2(1098.4211, 860.64185)
+scale = Vector2(0.9999998, 0.9999998)
+shape = SubResource("RectangleShape2D_af3jj")
+debug_color = Color(0, 0.6, 0.69803923, 0.1254902)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2624063]
+script = ExtResource("11_um4ci")
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=853682202]
+layout_mode = 3
+anchor_left = 0.041
+anchor_top = 0.77300006
+anchor_right = 0.324
+anchor_bottom = 0.93200004
+offset_left = 1001.2399
+offset_top = 1603.0105
+offset_right = 715.22394
+offset_bottom = 1539.9785
+metadata/_edit_use_anchors_ = true
+
+[node name="DialogueBox" type="Panel" parent="CanvasLayer/Control" unique_id=12227098]
+visible = false
+modulate = Color(1, 1, 1, 0.91764706)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 2.9310002
+anchor_top = 11.627001
+anchor_right = 9.084001
+anchor_bottom = 13.657001
+offset_left = -1129.7119
+offset_top = -2087.9946
+offset_right = -970.8319
+offset_bottom = -2045.1946
+
+[node name="DialogueText" type="Label" parent="CanvasLayer/Control/DialogueBox" unique_id=1961543739]
+layout_direction = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 5.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_38cce")
+autowrap_mode = 3
+clip_text = true
+
+[node name="TimerText" type="Label" parent="CanvasLayer" unique_id=1520274995]
+custom_minimum_size = Vector2(160, 100)
+anchors_preset = -1
+anchor_left = 0.66400003
+anchor_top = 0.057000004
+anchor_right = 0.96300006
+anchor_bottom = 0.36600003
+offset_left = 3.0719604
+offset_top = 0.063999176
+offset_right = -170.8761
+offset_bottom = -100.168015
+grow_horizontal = 0
+scale = Vector2(2, 2)
+tooltip_text = "05:00"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("12_fenkf")
+theme_override_font_sizes/font_size = 32
+text = "07:00"
+horizontal_alignment = 2
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=72327964]
+stream = ExtResource("14_li1ao")
+volume_db = 16.0
+autoplay = true
+script = ExtResource("15_idd80")
+
+[connection signal="body_entered" from="bedroom/wooden boxes" to="bedroom/wooden boxes" method="_on_body_entered"]
+[connection signal="body_exited" from="bedroom/wooden boxes" to="bedroom/wooden boxes" method="_on_body_exited"]
+[connection signal="body_entered" from="bedroom/cupboard" to="bedroom/cupboard" method="_on_body_entered"]
+[connection signal="body_exited" from="bedroom/cupboard" to="bedroom/cupboard" method="_on_body_exited"]
+[connection signal="body_entered" from="bedroom/bed" to="bedroom/bed" method="_on_body_entered"]
+[connection signal="body_exited" from="bedroom/bed" to="bedroom/bed" method="_on_body_exited"]
+[connection signal="body_entered" from="bedroom/lamp bedroom" to="bedroom/lamp bedroom" method="_on_body_entered"]
+[connection signal="body_exited" from="bedroom/lamp bedroom" to="bedroom/lamp bedroom" method="_on_body_exited"]
+[connection signal="body_entered" from="bedroom/EXIT DOOR" to="bedroom/EXIT DOOR" method="_on_body_entered"]
+[connection signal="body_exited" from="bedroom/EXIT DOOR" to="bedroom/EXIT DOOR" method="_on_body_exited"]
+[connection signal="body_entered" from="bedroom/pillow" to="bedroom/pillow" method="_on_body_entered"]
+[connection signal="body_exited" from="bedroom/pillow" to="bedroom/pillow" method="_on_body_exited"]
+[connection signal="body_entered" from="bedroom/fake door" to="bedroom/fake door" method="_on_body_entered"]
+[connection signal="body_exited" from="bedroom/fake door" to="bedroom/fake door" method="_on_body_exited"]
+[connection signal="body_entered" from="bedroom/cage" to="bedroom/cage" method="_on_body_entered"]
+[connection signal="body_exited" from="bedroom/cage" to="bedroom/cage" method="_on_body_exited"]
+[connection signal="area_entered" from="player/InteractionArea" to="player" method="_on_interaction_area_area_entered"]
+[connection signal="area_exited" from="player/InteractionArea" to="player" method="_on_interaction_area_area_exited"]
+[connection signal="finished" from="AudioStreamPlayer2D" to="AudioStreamPlayer2D" method="_on_finished"]

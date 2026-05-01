@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logic is Two</title>
+    <style>
+        :root {
+            --bg-dark: #0f0f13;
+            --grass-bg: #2b4a2b;
+            --wall-color: #1e2f1e;
+            --meow-color: #ffb6c1; 
+            --yushi-color: #00ffff; 
+            --block-bg: #f8f9fa;
+            --block-text: #212529;
+            --is-color: #ffd166;
+            --gap-color: #050508;
+            --bridge-color: #adb5bd;
+            --button-color: #ef476f;
+            --fire-1: #ff5500;
+            --fire-2: #ff8c00;
+            --water-1: #0077b6;
+            --water-2: #0096c7;
+            --door-color: #8b4513;
+            --door-border: #5c2e0e;
+            --text-light: #ffffff;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+        .active-screen {
+            display: flex;
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        h1 { margin: 0 0 15px 0; font-size: 36px; letter-spacing: 2px; text-transform: uppercase; color: #fff; text-shadow: 0 4px 10px rgba(0,0,0,0.5);}
+        p.subtitle { color: #aaa; font-size: 18px; margin-bottom: 30px; }
+        
+        .menu-btn {
+            padding: 15px 30px; font-size: 20px; cursor: pointer; background: var(--is-color);
+            color: #000; font-weight: bold; border: none; border-radius: 8px; transition: 0.2s;
+            box-shadow: 0 5px 15px rgba(255, 209, 102, 0.3); margin-top: 20px;
+        }
+        .menu-btn:hover { background: #ffdf88; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(255, 209, 102, 0.5); }
+
+        .layout-container {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        /* --- SIDE PANEL UI --- */
+        .side-panel {
+            width: 250px;
+            background: #17171c;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            text-align: left;
+            height: 560px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .side-panel h3 { margin-top: 0; color: var(--is-color); text-transform: uppercase; font-size: 14px; border-bottom: 1px solid #333; padding-bottom: 5px;}
+        
+        .static-rules { font-size: 13px; color: #bbb; line-height: 1.5; margin-bottom: 15px; flex-grow: 1; overflow-y: auto;}
+        .static-rules p { margin: 5px 0; }
+        .static-rules b.meow { color: var(--meow-color); }
+        .static-rules b.yushi { color: var(--yushi-color); }
+
+        #active-rules {
+            font-family: 'Courier New', Courier, monospace; font-size: 15px;
+            color: var(--is-color); display: flex; flex-direction: column; gap: 6px;
+        }
+        .rule-badge {
+            background: rgba(255, 209, 102, 0.1); border-left: 3px solid var(--is-color);
+            padding: 4px 8px; border-radius: 2px;
+        }
+
+        /* --- GAME BOARD --- */
+        #main-game-area {
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .level-title { color: var(--is-color); font-size: 18px; margin-bottom: 15px; text-transform: uppercase; font-weight: bold;}
+
+        #game-board {
+            display: grid; grid-template-columns: repeat(11, 50px); grid-template-rows: repeat(11, 50px);
+            gap: 2px; background-color: #000; border: 6px solid #1a2e1a; border-radius: 6px;
+            position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+        }
+
+        .cell {
+            width: 50px; height: 50px; position: absolute; display: flex; justify-content: center;
+            align-items: center; font-weight: bold; font-size: 13px; box-sizing: border-box;
+            transition: all 0.15s cubic-bezier(0.2, 0.8, 0.2, 1); border-radius: 4px;
+        }
+
+        .wall { background-color: var(--wall-color); border: 1px solid #2a402a; background-image: radial-gradient(#3a503a 10%, transparent 10%); background-size: 10px 10px;}
+        .floor { background-color: var(--grass-bg); background-image: radial-gradient(rgba(255,255,255,0.05) 15%, transparent 15%); background-size: 15px 15px; }
+        .gap { background-color: var(--gap-color); box-shadow: inset 0 0 12px #000; }
+        
+        .fire { background-image: repeating-linear-gradient(45deg, var(--fire-1), var(--fire-1) 10px, var(--fire-2) 10px, var(--fire-2) 20px); box-shadow: inset 0 0 10px var(--fire-1), 0 0 5px var(--fire-1); z-index: 1;}
+        .water { background-image: repeating-linear-gradient(45deg, var(--water-1), var(--water-1) 10px, var(--water-2) 10px, var(--water-2) 20px); box-shadow: inset 0 0 10px var(--water-1), 0 0 5px var(--water-1); z-index: 1;}
+        
+        .door { background-color: var(--door-color); border: 3px solid var(--door-border); background-image: linear-gradient(90deg, transparent 50%, rgba(0,0,0,0.1) 50%); background-size: 10px 100%; box-shadow: inset 0 0 5px #000;}
+        .door-open { opacity: 0.2; border: 3px dashed var(--door-border); background: transparent; }
+
+        .bridge { background-color: var(--bridge-color); background-image: repeating-linear-gradient(90deg, transparent, transparent 5px, rgba(0,0,0,0.15) 5px, rgba(0,0,0,0.15) 10px); border: 1px solid #666; z-index: 2;}
+        
+        /* Characters using Images */
+        .meow { background-image: url('Images/Group 1.png'); background-size: cover; background-position: center; border-radius: 50%; box-shadow: 0 0 15px var(--meow-color); z-index: 10; color: transparent;}
+        .yushi { background-image: url('Images/Group 2.png'); background-size: cover; background-position: center; border-radius: 50%; box-shadow: 0 0 15px var(--yushi-color); z-index: 10; color: transparent;}
+        
+        /* Blocks */
+        .block { background-color: var(--block-bg); color: var(--block-text); border: 2px solid #888; z-index: 5; box-shadow: 2px 2px 0 #000; font-size: 11px;}
+        .block-static { 
+            background: linear-gradient(135deg, #ffd166 25%, #d4a373 25%, #d4a373 50%, #ffd166 50%, #ffd166 75%, #d4a373 75%, #d4a373 100%);
+            background-size: 14.14px 14.14px;
+            color: #000; border: 3px solid #000; z-index: 5; 
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.5), 2px 2px 0 #000; 
+            font-weight: 900; font-size: 14px;
+        }
+
+        /* Valid Syntax Glow */
+        .valid-rule {
+            box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.8), inset 0 0 10px rgba(255, 255, 255, 0.8) !important;
+            border-color: #fff !important;
+        }
+        
+        .button { border: 4px solid var(--button-color); background: rgba(239, 71, 111, 0.1); border-radius: 50%; width: 34px; height: 34px; margin: 8px; transition: 0.2s;}
+        .button-pressed { background-color: var(--button-color); transform: scale(0.9); box-shadow: 0 0 10px var(--button-color); }
+        
+        .exit-meow { border: 3px dashed var(--meow-color); background: rgba(255, 182, 193, 0.2); }
+        .exit-yushi { border: 3px dashed var(--yushi-color); background: rgba(0, 255, 255, 0.2); }
+
+        .overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; color: white; z-index: 100;
+            display: none; border-radius: 4px; text-align: center;
+        }
+        .overlay h2 { color: var(--is-color); font-size: 32px; margin-bottom: 5px; }
+        .overlay p { color: #aaa; margin-bottom: 20px; font-size: 14px; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Audio Elements -->
+    <audio id="sfx-walk-meow" src="Audio/heavy walking.mp3"></audio>
+    <audio id="sfx-walk-yushi" src="Audio/roboat walking.mp3"></audio>
+    <audio id="sfx-dead" src="Audio/dead.mp3"></audio>
+    <audio id="sfx-reset" src="Audio/reset level sound.mp3"></audio>
+    <audio id="sfx-win" src="Audio/level complete.mp3"></audio>
+
+    <div id="start-screen" class="screen active-screen">
+        <h1>Logic is Two</h1>
+        <p class="subtitle">A cooperative logic puzzle.</p>
+        <button class="menu-btn" onclick="startGame()">Start Game</button>
+    </div>
+
+    <div id="game-container" class="screen" style="max-width: 900px;">
+        <div class="layout-container">
+            <div class="side-panel">
+                <h3>Game Rules</h3>
+                <div class="static-rules">
+                    <p><b class="meow">Group 1 (W A S D)</b>:<br>Immune to <b>Fire</b>. <br>Pushes <b>NOUNS</b> (MEOW, YUSHI, DOOR).</p>
+                    <p><b class="yushi">Group 2 (Arrows)</b>:<br>Immune to <b>Water</b>. <br>Pushes <b>PROPERTIES</b> (FLOAT, SAFE, OPEN).</p>
+                    <p><b>Rules</b>: Form logic sentences adjacent to the bolted <b>IS</b> block (Horizontal Left-to-Right, or Vertical Top-to-Bottom). Blocks glow when valid!</p>
+                    <p style="margin-top:20px; color:#ef476f;">Press <b>R</b> to reset.</p>
+                </div>
+                <h3>Active Synergy</h3>
+                <div id="active-rules"><div class="rule-badge">NONE</div></div>
+                <div id="status-text" style="color:#888; font-size: 12px; margin-top: 10px;">Status: Awaiting Input</div>
+            </div>
+
+            <div id="main-game-area">
+                <h1 style="font-size:24px; margin-bottom:5px;">Logic is Two</h1>
+                <div class="level-title" id="level-title">Level 1</div>
+                
+                <div id="game-board">
+                    <div id="level-overlay" class="overlay">
+                        <h2 id="overlay-title">Synergy Achieved!</h2>
+                        <p id="overlay-desc">Proceed to the next area.</p>
+                        <button class="menu-btn" id="overlay-btn" onclick="advanceLevel()">Next Level</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    function playSound(id) {
+        let aud = document.getElementById(id);
+        if (aud) { aud.currentTime = 0; aud.play().catch(e=>console.log("Audio play prevented:", e)); }
+    }
+
+    function showScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active-screen'));
+        document.getElementById(screenId).classList.add('active-screen');
+    }
+
+    function startGame() {
+        showScreen('game-container');
+        initLevel(0);
+    }
+
+    const GRID_SIZE = 11;
+    let board = document.getElementById('game-board');
+    let rulesDisplay = document.getElementById('active-rules');
+    let statusText = document.getElementById('status-text');
+    let levelTitle = document.getElementById('level-title');
+    let overlay = document.getElementById('level-overlay');
+    
+    let currentLevelIndex = 0;
+    let state = {};
+
+    // --- LEVELS 1 to 10 ---
+    const levels = [
+        {
+            title: "Level 1: The Basics",
+            desc: "Learn to push blocks and create rules.",
+            meow: { x: 2, y: 8 }, yushi: { x: 2, y: 9 },
+            exits: { meow: { x: 9, y: 8 }, yushi: { x: 9, y: 9 } },
+            button: { x: 8, y: 3, targets: [[6,8], [6,9]] },
+            blocks: [
+                { id: 'meow_n', type: 'noun', text: 'YUSHI', x: 3, y: 4, pusher: 'meow' },
+                { id: 'float_p', type: 'prop', text: 'FLOAT', x: 5, y: 5, pusher: 'yushi' },
+                { id: 'is1', type: 'static', text: 'IS', x: 4, y: 3 }
+            ],
+            gaps: [[6,1],[6,2],[6,3],[6,4],[6,5],[6,6],[6,7],[6,8],[6,9]],
+            fire: [], water: [], doors: []
+        },
+        {
+            title: "Level 2: Elemental Divide",
+            desc: "Meow ignores Fire, Yushi ignores Water. Paths are blocked, form rules to cross!",
+            meow: { x: 2, y: 2 }, yushi: { x: 2, y: 8 },
+            exits: { meow: { x: 9, y: 3 }, yushi: { x: 9, y: 7 } }, 
+            button: { x: -1, y: -1, targets: [] }, 
+            blocks: [
+                { id: 'meow_n', type: 'noun', text: 'MEOW', x: 3, y: 4, pusher: 'meow' },
+                { id: 'safe_p', type: 'prop', text: 'SAFE', x: 3, y: 6, pusher: 'yushi' },
+                { id: 'is1', type: 'static', text: 'IS', x: 5, y: 5 }
+            ],
+            // Wall splitting the board so they can't cross to each other's domain easily
+            gaps: [[0,5],[1,5],[2,5],[3,5],[4,5], [6,5],[7,5],[8,5],[9,5],[10,5]],
+            water: [[6,1],[6,2],[6,3],[6,4]], // Blocks Meow Meow
+            fire: [[6,6],[6,7],[6,8],[6,9]],  // Blocks Yushi
+            doors: []
+        },
+        {
+            title: "Level 3: The Wooden Vault",
+            desc: "Coordinate logic. Build two rules to crack the vault.",
+            meow: { x: 2, y: 8 }, yushi: { x: 8, y: 8 },
+            exits: { meow: { x: 2, y: 1 }, yushi: { x: 8, y: 1 } },
+            button: { x: 5, y: 1, targets: [[2,2]] }, 
+            blocks: [
+                { id: 'door_n', type: 'noun', text: 'DOOR', x: 2, y: 5, pusher: 'meow' },
+                { id: 'open_p', type: 'prop', text: 'OPEN', x: 6, y: 5, pusher: 'yushi' },
+                { id: 'is1', type: 'static', text: 'IS', x: 4, y: 5 },
+                { id: 'yushi_n', type: 'noun', text: 'YUSHI', x: 4, y: 7, pusher: 'meow' },
+                { id: 'float_p', type: 'prop', text: 'FLOAT', x: 8, y: 7, pusher: 'yushi' },
+                { id: 'is2', type: 'static', text: 'IS', x: 6, y: 7 }
+            ],
+            gaps: [[1,2],[2,2],[3,2],[4,2],[5,2],[6,2],[7,2],[8,2],[9,2]],
+            fire: [], water: [], doors: [[1,3],[2,3],[3,3],[4,3],[5,3],[6,3],[7,3],[8,3],[9,3]]
+        },
+        {
+            title: "Level 4: The Crossroads",
+            desc: "Rules can intersect. Share the 'IS' block!",
+            meow: { x: 5, y: 8 }, yushi: { x: 5, y: 9 },
+            exits: { meow: { x: 5, y: 1 }, yushi: { x: 5, y: 2 } },
+            button: { x: -1, y: -1, targets: [] },
+            blocks: [
+                { id: 'meow_n', type: 'noun', text: 'MEOW', x: 3, y: 6, pusher: 'meow' },
+                { id: 'door_n', type: 'noun', text: 'DOOR', x: 5, y: 7, pusher: 'meow' },
+                { id: 'safe_p', type: 'prop', text: 'SAFE', x: 7, y: 6, pusher: 'yushi' },
+                { id: 'open_p', type: 'prop', text: 'OPEN', x: 5, y: 4, pusher: 'yushi' },
+                { id: 'is1', type: 'static', text: 'IS', x: 5, y: 5 }
+            ],
+            gaps: [[1,3],[2,3],[3,3],[7,3],[8,3],[9,3]],
+            fire: [[0,3],[10,3]], water: [[4,3],[6,3]], doors: [[5,3]]
+        },
+        {
+            title: "Level 5: Impenetrable Wall",
+            desc: "Both need SAFE, but only one IS block...",
+            meow: { x: 2, y: 7 }, yushi: { x: 8, y: 7 },
+            exits: { meow: { x: 2, y: 2 }, yushi: { x: 8, y: 2 } },
+            button: { x: -1, y: -1, targets: [] },
+            blocks: [
+                { id: 'meow_n', type: 'noun', text: 'MEOW', x: 3, y: 5, pusher: 'meow' },
+                { id: 'yushi_n', type: 'noun', text: 'YUSHI', x: 7, y: 5, pusher: 'meow' },
+                { id: 'safe_p', type: 'prop', text: 'SAFE', x: 5, y: 6, pusher: 'yushi' },
+                { id: 'is1', type: 'static', text: 'IS', x: 5, y: 5 }
+            ],
+            gaps: [], fire: [[1,3],[2,3],[3,3],[4,3]], water: [[6,3],[7,3],[8,3],[9,3]], doors: [[5,3]]
+        },
+        {
+            title: "Level 6: Dual Bridge",
+            desc: "Coordinate switches to form your rules.",
+            meow: { x: 1, y: 5 }, yushi: { x: 9, y: 5 },
+            exits: { meow: { x: 5, y: 1 }, yushi: { x: 5, y: 9 } },
+            button: { x: 5, y: 5, targets: [[4,2], [6,8]] },
+            blocks: [
+                { id: 'b1', type: 'noun', text: 'MEOW', x: 2, y: 4, pusher: 'meow' },
+                { id: 'b2', type: 'prop', text: 'SAFE', x: 8, y: 4, pusher: 'yushi' },
+                { id: 'is1', type: 'static', text: 'IS', x: 5, y: 2 }
+            ],
+            gaps: [[4,1],[4,2],[4,3],[6,7],[6,8],[6,9]], fire: [[1,4],[2,4],[3,4]], water: [[7,6],[8,6],[9,6]], doors: []
+        },
+        {
+            title: "Level 7: The Gap Grid",
+            desc: "FLOAT across the voids.",
+            meow: { x: 1, y: 5 }, yushi: { x: 1, y: 6 },
+            exits: { meow: { x: 9, y: 5 }, yushi: { x: 9, y: 6 } },
+            button: { x: -1, y: -1, targets: [] },
+            blocks: [
+                { id: 'b1', type: 'noun', text: 'YUSHI', x: 3, y: 3, pusher: 'meow' },
+                { id: 'b2', type: 'prop', text: 'FLOAT', x: 5, y: 3, pusher: 'yushi' },
+                { id: 'is1', type: 'static', text: 'IS', x: 4, y: 3 }
+            ],
+            gaps: [[5,5],[5,6],[7,5],[7,6]], fire: [], water: [], doors: []
+        },
+        {
+            title: "Level 8: The Button Maze",
+            desc: "Push to unlock.",
+            meow: { x: 1, y: 1 }, yushi: { x: 1, y: 2 },
+            exits: { meow: { x: 9, y: 8 }, yushi: { x: 9, y: 9 } },
+            button: { x: 5, y: 5, targets: [[7,8], [7,9]] },
+            blocks: [
+                { id: 'b1', type: 'noun', text: 'DOOR', x: 2, y: 6, pusher: 'meow' },
+                { id: 'b2', type: 'prop', text: 'OPEN', x: 4, y: 6, pusher: 'yushi' },
+                { id: 'is1', type: 'static', text: 'IS', x: 3, y: 6 }
+            ],
+            gaps: [[7,1],[7,2],[7,3],[7,4],[7,8], [7,9]], fire: [], water: [], doors: [[5,4]]
+        },
+        {
+            title: "Level 9: Absolute Immunity",
+            desc: "Hazards everywhere. Survival requires both SAFE and FLOAT.",
+            meow: { x: 2, y: 2 }, yushi: { x: 8, y: 8 },
+            exits: { meow: { x: 5, y: 5 }, yushi: { x: 6, y: 5 } },
+            button: { x: -1, y: -1, targets: [] },
+            blocks: [
+                { id: 'b1', type: 'noun', text: 'MEOW', x: 4, y: 2, pusher: 'meow' },
+                { id: 'b2', type: 'prop', text: 'SAFE', x: 6, y: 2, pusher: 'yushi' },
+                { id: 'is1', type: 'static', text: 'IS', x: 5, y: 2 },
+                
+                { id: 'b3', type: 'noun', text: 'YUSHI', x: 4, y: 8, pusher: 'meow' },
+                { id: 'b4', type: 'prop', text: 'FLOAT', x: 6, y: 8, pusher: 'yushi' },
+                { id: 'is2', type: 'static', text: 'IS', x: 5, y: 8 }
+            ],
+            gaps: [[5,4],[6,4]], fire: [[4,4],[5,6]], water: [[6,6],[7,4]], doors: []
+        },
+        {
+            title: "Level 10: Synergy Master",
+            desc: "The ultimate test of Logic! Thank you for playing.",
+            meow: { x: 1, y: 1 }, yushi: { x: 9, y: 1 },
+            exits: { meow: { x: 4, y: 9 }, yushi: { x: 6, y: 9 } },
+            button: { x: 5, y: 3, targets: [[4,7], [6,7]] },
+            blocks: [
+                { id: 'b1', type: 'noun', text: 'DOOR', x: 3, y: 5, pusher: 'meow' },
+                { id: 'b2', type: 'noun', text: 'MEOW', x: 7, y: 5, pusher: 'meow' },
+                { id: 'b3', type: 'prop', text: 'OPEN', x: 5, y: 4, pusher: 'yushi' },
+                { id: 'b4', type: 'prop', text: 'SAFE', x: 5, y: 6, pusher: 'yushi' },
+                { id: 'is1', type: 'static', text: 'IS', x: 5, y: 5 }
+            ],
+            gaps: [[4,7],[6,7]], fire: [[3,9],[4,8],[5,9]], water: [[7,9],[6,8]], doors: [[5,2]]
+        }
+    ];
+
+    let validSentenceBlocks = new Set();
+
+    function initLevel(index) {
+        overlay.style.display = 'none';
+        const levelData = levels[index];
+        levelTitle.innerText = levelData.title;
+        statusText.innerText = "Status: Awaiting Input";
+        statusText.style.color = "#888";
+
+        state = {
+            meow: { ...levelData.meow },
+            yushi: { ...levelData.yushi },
+            blocks: JSON.parse(JSON.stringify(levelData.blocks)),
+            walls: [],
+            gaps: [...levelData.gaps.map(g => ({x: g[0], y: g[1]}))],
+            fire: [...levelData.fire.map(f => ({x: f[0], y: f[1]}))],
+            water: [...levelData.water.map(w => ({x: w[0], y: w[1]}))],
+            doors: [...levelData.doors.map(d => ({x: d[0], y: d[1]}))],
+            bridges: [],
+            button: { ...levelData.button, pressed: false },
+            exits: { meow: { ...levelData.exits.meow }, yushi: { ...levelData.exits.yushi } },
+            activeRules: []
+        };
+
+        for (let i = 0; i < GRID_SIZE; i++) {
+            state.walls.push({ x: i, y: 0 });
+            state.walls.push({ x: i, y: 10 });
+            if (i > 0 && i < 10) {
+                state.walls.push({ x: 0, y: i });
+                state.walls.push({ x: 10, y: i });
+            }
+        }
+        
+        validSentenceBlocks.clear();
+        evaluateGameState();
+    }
+
+    function getEntityAt(x, y) {
+        if (state.walls.some(w => w.x === x && w.y === y)) return { type: 'wall' };
+        let block = state.blocks.find(b => b.x === x && b.y === y);
+        if (block) return { type: 'block', data: block };
+        if (state.meow.x === x && state.meow.y === y) return { type: 'player', name: 'meow' };
+        if (state.yushi.x === x && state.yushi.y === y) return { type: 'player', name: 'yushi' };
+        return null; 
+    }
+
+    function isTerrainPassable(x, y, playerOrBlock) {
+        let isBridge = state.bridges.some(b => b.x === x && b.y === y);
+        if (isBridge) return true;
+
+        let isDoor = state.doors.some(d => d.x === x && d.y === y);
+        let isGap = state.gaps.some(g => g.x === x && g.y === y);
+        let isFire = state.fire.some(f => f.x === x && f.y === y);
+        let isWater = state.water.some(w => w.x === x && w.y === y);
+
+        if (playerOrBlock === 'block') {
+            if (isDoor && !state.activeRules.includes('DOOR IS OPEN')) return false;
+            if (isGap || isFire || isWater) return false;
+            return true;
+        }
+
+        let player = playerOrBlock;
+        let upperPlayer = player.toUpperCase();
+
+        if (isDoor && !state.activeRules.includes('DOOR IS OPEN')) return false;
+        if (isGap && !state.activeRules.includes(`${upperPlayer} IS FLOAT`)) return false;
+        
+        if (isFire) {
+            if (player !== 'meow' && !state.activeRules.includes(`${upperPlayer} IS SAFE`)) {
+                playSound('sfx-dead'); return false;
+            }
+        }
+        if (isWater) {
+            if (player !== 'yushi' && !state.activeRules.includes(`${upperPlayer} IS SAFE`)) {
+                playSound('sfx-dead'); return false;
+            }
+        }
+
+        return true;
+    }
+
+    function tryMove(player, dx, dy) {
+        let pState = player === 'meow' ? state.meow : state.yushi;
+        let nx = pState.x + dx;
+        let ny = pState.y + dy;
+
+        let entity = getEntityAt(nx, ny);
+
+        if (entity && (entity.type === 'wall' || entity.type === 'player')) return false;
+
+        if (entity && entity.type === 'block') {
+            let block = entity.data;
+            if (block.pusher !== player) return false; 
+
+            let bx = block.x + dx;
+            let by = block.y + dy;
+
+            if (getEntityAt(bx, by) !== null) return false; 
+            if (!isTerrainPassable(bx, by, 'block')) return false; 
+
+            block.x = bx;
+            block.y = by;
+        } else {
+            if (!isTerrainPassable(nx, ny, player)) return false;
+        }
+
+        pState.x = nx;
+        pState.y = ny;
+
+        if(player === 'meow') playSound('sfx-walk-meow');
+        if(player === 'yushi') playSound('sfx-walk-yushi');
+
+        evaluateGameState();
+        return true;
+    }
+
+    function evaluateGameState() {
+        state.activeRules = [];
+        validSentenceBlocks.clear();
+        let isBlocks = state.blocks.filter(b => b.type === 'static');
+        
+        isBlocks.forEach(isBlock => {
+            // Horizontal (Left-to-Right)
+            let left = state.blocks.find(b => b.x === isBlock.x - 1 && b.y === isBlock.y);
+            let right = state.blocks.find(b => b.x === isBlock.x + 1 && b.y === isBlock.y);
+            if (left && left.type === 'noun' && right && right.type === 'prop') {
+                state.activeRules.push(`${left.text} IS ${right.text}`);
+                validSentenceBlocks.add(left.id); validSentenceBlocks.add(isBlock.id); validSentenceBlocks.add(right.id);
+            }
+            // Vertical (Top-to-Bottom)
+            let top = state.blocks.find(b => b.x === isBlock.x && b.y === isBlock.y - 1);
+            let bottom = state.blocks.find(b => b.x === isBlock.x && b.y === isBlock.y + 1);
+            if (top && top.type === 'noun' && bottom && bottom.type === 'prop') {
+                state.activeRules.push(`${top.text} IS ${bottom.text}`);
+                validSentenceBlocks.add(top.id); validSentenceBlocks.add(isBlock.id); validSentenceBlocks.add(bottom.id);
+            }
+        });
+
+        state.activeRules = [...new Set(state.activeRules)];
+
+        let btn = state.button;
+        if (btn.x !== -1 && !btn.pressed && ((state.meow.x === btn.x && state.meow.y === btn.y) || (state.yushi.x === btn.x && state.yushi.y === btn.y))) {
+            btn.pressed = true;
+            btn.targets.forEach(t => { state.bridges.push({ x: t[0], y: t[1] }); });
+            statusText.innerText = "Status: Trigger Activated!";
+            statusText.style.color = "var(--button-color)";
+        }
+
+        render();
+
+        if (state.meow.x === state.exits.meow.x && state.meow.y === state.exits.meow.y &&
+            state.yushi.x === state.exits.yushi.x && state.yushi.y === state.exits.yushi.y) {
+            playSound('sfx-win');
+            setTimeout(triggerWin, 300);
+        }
+    }
+
+    function createDiv(className, x, y, text = '', id = null) {
+        let div = document.createElement('div');
+        div.className = `cell ${className}`;
+        div.style.gridColumn = x + 1;
+        div.style.gridRow = y + 1;
+        if (text) div.innerText = text;
+        if (id) div.setAttribute('data-id', id);
+        return div;
+    }
+
+    function render() {
+        Array.from(board.children).forEach(child => {
+            if (child.id !== 'level-overlay') board.removeChild(child);
+        });
+
+        for(let x=1; x<10; x++) {
+            for(let y=1; y<10; y++) {
+                board.appendChild(createDiv('floor', x, y));
+            }
+        }
+
+        board.appendChild(createDiv('exit-meow', state.exits.meow.x, state.exits.meow.y, 'M'));
+        board.appendChild(createDiv('exit-yushi', state.exits.yushi.x, state.exits.yushi.y, 'Y'));
+
+        state.gaps.forEach(g => board.appendChild(createDiv('gap', g.x, g.y)));
+        state.fire.forEach(f => board.appendChild(createDiv('fire', f.x, f.y)));
+        state.water.forEach(w => board.appendChild(createDiv('water', w.x, w.y)));
+        
+        let doorClass = state.activeRules.includes('DOOR IS OPEN') ? 'door door-open' : 'door';
+        state.doors.forEach(d => board.appendChild(createDiv(doorClass, d.x, d.y)));
+
+        state.bridges.forEach(b => board.appendChild(createDiv('bridge', b.x, b.y)));
+
+        if (state.button.x !== -1) {
+            let btnClass = state.button.pressed ? 'button button-pressed' : 'button';
+            board.appendChild(createDiv(btnClass, state.button.x, state.button.y));
+        }
+
+        state.walls.forEach(w => board.appendChild(createDiv('wall', w.x, w.y)));
+
+        state.blocks.forEach(b => {
+            let className = b.type === 'static' ? 'block-static' : 'block';
+            if(validSentenceBlocks.has(b.id)) className += ' valid-rule';
+            board.appendChild(createDiv(className, b.x, b.y, b.text, b.id));
+        });
+
+        // Use 'meow' and 'yushi' which triggers their css styles loading the images
+        board.appendChild(createDiv('meow', state.meow.x, state.meow.y, 'M'));
+        board.appendChild(createDiv('yushi', state.yushi.x, state.yushi.y, 'Y'));
+
+        if (state.activeRules.length > 0) {
+            rulesDisplay.innerHTML = state.activeRules.map(r => `<div class="rule-badge">${r}</div>`).join('');
+        } else {
+            rulesDisplay.innerHTML = '<div class="rule-badge" style="color:#555; border-color:#555;">NONE</div>';
+        }
+    }
+
+    window.addEventListener('keydown', (e) => {
+        if (document.getElementById('game-container').classList.contains('active-screen') === false) return;
+        if (overlay.style.display === 'flex') {
+            if (e.key === 'Enter' || e.key === ' ') advanceLevel();
+            return;
+        }
+
+        let preventDefault = true;
+        switch(e.key) {
+            case 'w': case 'W': tryMove('meow', 0, -1); break;
+            case 's': case 'S': tryMove('meow', 0, 1); break;
+            case 'a': case 'A': tryMove('meow', -1, 0); break;
+            case 'd': case 'D': tryMove('meow', 1, 0); break;
+            
+            case 'ArrowUp': tryMove('yushi', 0, -1); break;
+            case 'ArrowDown': tryMove('yushi', 0, 1); break;
+            case 'ArrowLeft': tryMove('yushi', -1, 0); break;
+            case 'ArrowRight': tryMove('yushi', 1, 0); break;
+            
+            case 'r': case 'R': 
+                playSound('sfx-reset');
+                initLevel(currentLevelIndex); 
+                break;
+            
+            default: preventDefault = false;
+        }
+        
+        if (preventDefault) e.preventDefault();
+    });
+
+    function triggerWin() {
+        let titleEl = document.getElementById('overlay-title');
+        let descEl = document.getElementById('overlay-desc');
+        let btnEl = document.getElementById('overlay-btn');
+
+        if (currentLevelIndex < levels.length - 1) {
+            titleEl.innerText = "Synergy Achieved!";
+            titleEl.style.color = "var(--is-color)";
+            descEl.innerText = levels[currentLevelIndex + 1].desc;
+            btnEl.innerText = "Next Level";
+        } else {
+            titleEl.innerText = "Game Completed!";
+            titleEl.style.color = "var(--yushi-color)";
+            descEl.innerText = "You have mastered the logic. Thanks for playing!";
+            btnEl.innerText = "Play Again";
+        }
+        overlay.style.display = 'flex';
+    }
+
+    function advanceLevel() {
+        if (currentLevelIndex < levels.length - 1) {
+            currentLevelIndex++;
+        } else {
+            currentLevelIndex = 0; 
+            showScreen('start-screen'); 
+            return;
+        }
+        initLevel(currentLevelIndex);
+    }
+
+</script>
+</body>
+</html>

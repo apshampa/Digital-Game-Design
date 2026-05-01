@@ -1,0 +1,256 @@
+[gd_scene format=3 uid="uid://d33a6r1j15vtk"]
+
+[ext_resource type="Script" uid="uid://bdh7yt1kkxue" path="res://Hall.gd" id="1_5soqk"]
+[ext_resource type="Texture2D" uid="uid://dhnhyw3u65n4t" path="res://hall new.jpeg" id="2_1a8w0"]
+[ext_resource type="Script" uid="uid://yv136wx8yys6" path="res://sofa.gd" id="2_iikb2"]
+[ext_resource type="Script" uid="uid://dqcox1xwb2gv0" path="res://clock.gd" id="3_y2dp6"]
+[ext_resource type="Script" uid="uid://cy1vecpbjn6vc" path="res://lamp.gd" id="4_5soqk"]
+[ext_resource type="Script" uid="uid://djkk75bkorhlc" path="res://rug.gd" id="5_8vkrd"]
+[ext_resource type="Script" uid="uid://cbsyy6m2b3pls" path="res://painting.gd" id="6_4qvhy"]
+[ext_resource type="Script" uid="uid://dv1uqqi1f0bso" path="res://kitchen_door.gd" id="7_mycug"]
+[ext_resource type="Script" uid="uid://dqemnn4jx3ygq" path="res://chair.gd" id="8_dxpqx"]
+[ext_resource type="Script" uid="uid://be1io0ujxxm45" path="res://player.gd" id="9_1a8w0"]
+[ext_resource type="Texture2D" uid="uid://dhx1mpcm20uei" path="res://addons/bluebrains_character_controller/character idle.png" id="10_dih6r"]
+[ext_resource type="Script" uid="uid://cuyx00nnk7y1c" path="res://canvas_layer.gd" id="11_iikb2"]
+[ext_resource type="Texture2D" uid="uid://xe2h8lhn7rsw" path="res://addons/bluebrains_character_controller/character walk 1.png" id="12_1a8w0"]
+[ext_resource type="FontFile" uid="uid://bpa3fb4wgj17j" path="res://addons/Creepster-Regular.ttf" id="12_y2dp6"]
+[ext_resource type="Texture2D" uid="uid://5800hpm2d7rf" path="res://addons/bluebrains_character_controller/character walk 2.png" id="13_l03jf"]
+[ext_resource type="AudioStream" uid="uid://ccoji8x58v855" path="res://addons/AudioFiles/02 Hall bg.mp3" id="14_8vkrd"]
+[ext_resource type="Texture2D" uid="uid://cq6vewwfxuivu" path="res://addons/bluebrains_character_controller/character walk 3.png" id="14_rffsr"]
+[ext_resource type="Script" uid="uid://dtkwir2g7rpat" path="res://AudioStreamPlayer.gd" id="15_4qvhy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1oo4e"]
+size = Vector2(292.61908, 184.80002)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8007g"]
+radius = 65.15148
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bdfba"]
+radius = 31.750244
+height = 99.24921
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pj3qg"]
+size = Vector2(467.3378, 168.1118)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y6pwk"]
+size = Vector2(150.20303, 182.82152)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d6a44"]
+size = Vector2(164.85689, 219.76624)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ruoc2"]
+size = Vector2(177.7612, 198.656)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a7ayd"]
+size = Vector2(111.90921, 128.82123)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o461y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_dih6r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_1a8w0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_l03jf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_rffsr")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ss6w1"]
+size = Vector2(135.62305, 153.38928)
+
+[sub_resource type="LabelSettings" id="LabelSettings_a7ayd"]
+
+[node name="Hall" type="Node2D" unique_id=1548518258]
+script = ExtResource("1_5soqk")
+
+[node name="hall" type="Sprite2D" parent="." unique_id=1931777013]
+position = Vector2(576.5, 344.99997)
+scale = Vector2(0.8780303, 0.9546079)
+texture = ExtResource("2_1a8w0")
+
+[node name="sofa" type="Area2D" parent="hall" unique_id=1908961279]
+script = ExtResource("2_iikb2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hall/sofa" unique_id=550576160]
+position = Vector2(-279.60312, -114.18299)
+shape = SubResource("RectangleShape2D_1oo4e")
+debug_color = Color(1, 1, 1, 0.03529412)
+
+[node name="clock" type="Area2D" parent="hall" unique_id=1276803904]
+script = ExtResource("3_y2dp6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hall/clock" unique_id=144581310]
+position = Vector2(0.5694666, -253.5072)
+shape = SubResource("CircleShape2D_8007g")
+debug_color = Color(1, 1, 1, 0.06666667)
+
+[node name="lamp" type="Area2D" parent="hall" unique_id=1753039049]
+position = Vector2(-0.6105066, 1.1815385)
+script = ExtResource("4_5soqk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hall/lamp" unique_id=965045411]
+position = Vector2(153.7943, -169.83713)
+shape = SubResource("CapsuleShape2D_bdfba")
+debug_color = Color(0.8117647, 0.9607843, 1, 0.078431375)
+
+[node name="rug" type="Area2D" parent="hall" unique_id=231139651]
+position = Vector2(1.8318179, 5.9076924)
+script = ExtResource("5_8vkrd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hall/rug" unique_id=2065051273]
+position = Vector2(-2.4013672, 109.32294)
+scale = Vector2(0.9999994, 0.9999999)
+shape = SubResource("RectangleShape2D_pj3qg")
+debug_color = Color(0.8509804, 0.96862745, 1, 0.08627451)
+
+[node name="painting" type="Area2D" parent="hall" unique_id=1196591312]
+script = ExtResource("6_4qvhy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hall/painting" unique_id=436262869]
+position = Vector2(512.88824, -203.65692)
+scale = Vector2(0.9999998, 0.99999976)
+shape = SubResource("RectangleShape2D_y6pwk")
+debug_color = Color(0.83137256, 0.9647059, 1, 0.08627451)
+
+[node name="KITCHEN DOOR" type="Area2D" parent="hall" unique_id=110687956]
+script = ExtResource("7_mycug")
+next_scene = "res://Kitchen.tscn"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hall/KITCHEN DOOR" unique_id=1462344486]
+position = Vector2(313.77045, -194.84436)
+scale = Vector2(0.9999998, 0.99999976)
+shape = SubResource("RectangleShape2D_d6a44")
+debug_color = Color(1, 1, 1, 0.039215688)
+
+[node name="chair" type="Area2D" parent="hall" unique_id=903659474]
+script = ExtResource("8_dxpqx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hall/chair" unique_id=81532835]
+position = Vector2(536.952, 189.60669)
+scale = Vector2(0.99999976, 0.9999999)
+shape = SubResource("RectangleShape2D_ruoc2")
+debug_color = Color(0.77254903, 0.9529412, 1, 0.03529412)
+
+[node name="player" type="CharacterBody2D" parent="hall" unique_id=1863179961]
+floor_max_angle = 0.12391838
+safe_margin = 0.05
+script = ExtResource("9_1a8w0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hall/player" unique_id=1837001838]
+position = Vector2(1.7083783, 251.41216)
+scale = Vector2(0.99999964, 0.9999998)
+shape = SubResource("RectangleShape2D_a7ayd")
+debug_color = Color(0.8901961, 0.9764706, 1, 0.039215688)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="hall/player" unique_id=1440993215]
+position = Vector2(1.7084028, 251.41214)
+scale = Vector2(0.15247558, 0.14027753)
+sprite_frames = SubResource("SpriteFrames_o461y")
+animation = &"walk"
+
+[node name="InteractionArea" type="Area2D" parent="hall/player" unique_id=1304298653]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hall/player/InteractionArea" unique_id=1836011335]
+position = Vector2(1.7083441, 252.45969)
+scale = Vector2(0.9999998, 0.9999998)
+shape = SubResource("RectangleShape2D_ss6w1")
+debug_color = Color(0, 0.6, 0.69803923, 0.1254902)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1576677615]
+script = ExtResource("11_iikb2")
+
+[node name="TimerText" type="Label" parent="CanvasLayer" unique_id=174166954]
+custom_minimum_size = Vector2(160, 100)
+anchors_preset = -1
+anchor_left = 0.66400003
+anchor_top = 0.062000003
+anchor_right = 0.96000004
+anchor_bottom = 0.37500003
+offset_left = 0.07196045
+offset_top = -0.1760025
+offset_right = -170.42004
+offset_bottom = -101.500015
+grow_horizontal = 0
+scale = Vector2(2, 2)
+tooltip_text = "07:00"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("12_y2dp6")
+theme_override_font_sizes/font_size = 32
+text = "07:00"
+horizontal_alignment = 2
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=1762873677]
+layout_mode = 3
+anchor_left = 0.038000003
+anchor_top = 0.69900006
+anchor_right = 0.384
+anchor_bottom = 0.943
+offset_left = 1004.6959
+offset_top = 1650.9625
+offset_right = 646.1039
+offset_bottom = 1532.8506
+metadata/_edit_use_anchors_ = true
+
+[node name="DialogueBox" type="Panel" parent="CanvasLayer/Control" unique_id=456194958]
+visible = false
+modulate = Color(1, 1, 1, 0.91764706)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 2.9310002
+anchor_top = 11.627001
+anchor_right = 9.084001
+anchor_bottom = 13.657001
+offset_left = -1119.7119
+offset_top = -2119.9946
+offset_right = -963.8319
+offset_bottom = -2048.1946
+
+[node name="DialogueText" type="Label" parent="CanvasLayer/Control/DialogueBox" unique_id=1698199919]
+layout_direction = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -5.0
+offset_top = -4.0
+offset_right = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_a7ayd")
+autowrap_mode = 3
+clip_text = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1724344525]
+stream = ExtResource("14_8vkrd")
+volume_db = 16.0
+autoplay = true
+script = ExtResource("15_4qvhy")
+
+[connection signal="body_entered" from="hall/sofa" to="hall/sofa" method="_on_body_entered"]
+[connection signal="body_exited" from="hall/sofa" to="hall/sofa" method="_on_body_exited"]
+[connection signal="body_shape_entered" from="hall/sofa" to="hall/sofa" method="_on_body_shape_entered"]
+[connection signal="body_shape_exited" from="hall/sofa" to="hall/sofa" method="_on_body_shape_exited"]
+[connection signal="body_entered" from="hall/clock" to="hall/clock" method="_on_body_entered"]
+[connection signal="body_exited" from="hall/clock" to="hall/clock" method="_on_body_exited"]
+[connection signal="body_entered" from="hall/lamp" to="hall/lamp" method="_on_body_entered"]
+[connection signal="body_exited" from="hall/lamp" to="hall/lamp" method="_on_body_exited"]
+[connection signal="body_entered" from="hall/rug" to="hall/rug" method="_on_body_entered"]
+[connection signal="body_exited" from="hall/rug" to="hall/rug" method="_on_body_exited"]
+[connection signal="body_entered" from="hall/painting" to="hall/painting" method="_on_body_entered"]
+[connection signal="body_exited" from="hall/painting" to="hall/painting" method="_on_body_exited"]
+[connection signal="body_entered" from="hall/KITCHEN DOOR" to="hall/KITCHEN DOOR" method="_on_body_entered"]
+[connection signal="body_exited" from="hall/KITCHEN DOOR" to="hall/KITCHEN DOOR" method="_on_body_exited"]
+[connection signal="body_entered" from="hall/chair" to="hall/chair" method="_on_body_entered"]
+[connection signal="body_exited" from="hall/chair" to="hall/chair" method="_on_body_exited"]
+[connection signal="area_entered" from="hall/player/InteractionArea" to="hall/player" method="_on_interaction_area_area_entered"]
+[connection signal="area_exited" from="hall/player/InteractionArea" to="hall/player" method="_on_interaction_area_area_exited"]
+[connection signal="finished" from="AudioStreamPlayer2D" to="AudioStreamPlayer2D" method="_on_finished"]

@@ -1,0 +1,434 @@
+:root {
+    --bg-color: #0d110f;
+    --panel-bg: #141b18;
+    --neon-green: #39ff14;
+    --dim-green: #1a4f1a;
+    --alert-red: #ff3333;
+    --alert-yellow: #ffb833;
+    --text-color: #a3e4b7;
+    --font-fam: 'Share Tech Mono', monospace;
+    --border-color: #1f3622;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-fam);
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CRT Effects */
+#crt-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    background-size: 100% 2px, 3px 100%;
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.container {
+    display: flex;
+    gap: 20px;
+    width: 95vw;
+    height: 90vh;
+    max-width: 1400px;
+    padding: 20px;
+    background: var(--bg-color);
+    border: 2px solid var(--border-color);
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.05);
+}
+
+.grid-section {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    background: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    position: relative;
+}
+
+.panel-header {
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h2 {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    color: var(--neon-green);
+    text-shadow: 0 0 5px rgba(57, 255, 20, 0.3);
+}
+
+h3 {
+    font-size: 0.9rem;
+    color: var(--neon-green);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+}
+
+.blinking-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--neon-green);
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+/* Canvas Area */
+.canvas-container {
+    position: relative;
+    flex: 1;
+    background: #000;
+    border: 1px solid var(--dim-green);
+    margin-bottom: 15px;
+    overflow: hidden;
+    cursor: crosshair;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#cartography-board,
+#engine-debug {
+    max-width: 100%;
+    max-height: 100%;
+    aspect-ratio: 1 / 1;
+    /* Preserve the pixel-art/sharp aesthetic */
+    image-rendering: pixelated;
+}
+
+#cartography-board {
+    position: relative;
+    z-index: 2;
+    background: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(57, 255, 20, 0.1) 40px),
+        repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(57, 255, 20, 0.1) 40px);
+}
+
+#engine-debug {
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+}
+
+#engine-debug.active {
+    opacity: 1;
+}
+
+.pin-toolkit {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    background: #0a0e0c;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+}
+
+/* Buttons */
+button {
+    background: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--dim-green);
+    padding: 8px 12px;
+    font-family: var(--font-fam);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+button:hover {
+    background: rgba(57, 255, 20, 0.1);
+    box-shadow: 0 0 8px rgba(57, 255, 20, 0.2);
+}
+
+button.active-tool {
+    background: var(--dim-green);
+    color: var(--neon-green);
+    border-color: var(--neon-green);
+}
+
+.divider {
+    width: 2px;
+    background: var(--border-color);
+}
+
+.icon {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.icon.red {
+    color: var(--alert-red);
+}
+
+.icon.green {
+    color: var(--neon-green);
+}
+
+.icon.yellow {
+    color: var(--alert-yellow);
+}
+
+/* Control Panel Moudles */
+.control-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    padding: 15px;
+}
+
+.power-module,
+.sonar-module,
+.trap-module,
+.lure-module {
+    padding: 10px;
+    border: 1px dashed var(--dim-green);
+    background: #0a0e0c;
+}
+
+.battery-bar,
+.cooldown-bar {
+    height: 15px;
+    border: 1px solid var(--dim-green);
+    background: #000;
+    margin-bottom: 5px;
+}
+
+.battery-fill {
+    height: 100%;
+    background: var(--neon-green);
+    transition: width 0.3s;
+}
+
+.battery-fill.low {
+    background: var(--alert-yellow);
+}
+
+.battery-fill.critical {
+    background: var(--alert-red);
+}
+
+.cooldown-fill {
+    height: 100%;
+    background: #444;
+    /* Dims when on cooldown */
+    transition: width linear;
+}
+
+.battery-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+}
+
+.help-text {
+    font-size: 0.75rem;
+    color: #888;
+    margin-bottom: 10px;
+}
+
+.sonar-status {
+    font-size: 0.8rem;
+    text-align: right;
+    margin-top: 5px;
+}
+
+.gate-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.gate-btn {
+    border-color: #555;
+    background: #111;
+}
+
+.gate-btn.dropped {
+    background: var(--alert-red);
+    color: #000;
+    border-color: #f00;
+    pointer-events: none;
+}
+
+.danger-btn {
+    width: 100%;
+    border-color: var(--alert-red);
+    color: var(--alert-red);
+    font-weight: bold;
+    padding: 12px;
+}
+
+.danger-btn:hover {
+    background: rgba(255, 51, 51, 0.2);
+    box-shadow: 0 0 10px rgba(255, 51, 51, 0.4);
+}
+
+.danger-btn:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    border-color: #555;
+    color: #888;
+}
+
+/* Terminal Log */
+.terminal-module {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--dim-green);
+    background: #000;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.terminal-window {
+    flex: 1;
+    overflow-y: auto;
+    font-size: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.log-entry {
+    margin-bottom: 2px;
+}
+
+.log-entry.sys {
+    color: #888;
+}
+
+.log-entry.warn {
+    color: var(--alert-yellow);
+}
+
+.log-entry.crit {
+    color: var(--alert-red);
+}
+
+.log-entry.action {
+    color: var(--neon-green);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--dim-green);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--neon-green);
+}
+
+/* Overlays */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    backdrop-filter: blur(2px);
+}
+
+.overlay.hidden {
+    display: none;
+}
+
+.overlay h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    letter-spacing: 5px;
+}
+
+.overlay .crit {
+    color: var(--alert-red);
+    text-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
+}
+
+.overlay .neon {
+    color: var(--neon-green);
+    text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+}
+
+.overlay p {
+    margin-bottom: 30px;
+    font-size: 1.2rem;
+}
+
+.blink {
+    animation: blinkText 1.5s infinite;
+    color: #fff;
+    opacity: 0.8;
+}
+
+@keyframes blinkText {
+
+    0%,
+    100% {
+        opacity: 0.8;
+    }
+
+    50% {
+        opacity: 0.2;
+    }
+}
