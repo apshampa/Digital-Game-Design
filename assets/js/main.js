@@ -5,7 +5,7 @@ const games = [
         title: "Lumos",
         description: "A challenging atmospheric game focusing on lighting aesthetics and sensory design.",
         student: "Srinivas Mangipudi, Rheem Sharma, Ahana Biswas",
-        pdf: "./assets/docs/FINAL CHANGELOG - Srinivas Mangipudi.pdf",
+        pdf: "./assets/docs/srinivas-mangipudi.pdf",
         path: "./LUMOS GAME/To host/index.html"
     },
     {
@@ -13,7 +13,7 @@ const games = [
         title: "Froggy",
         description: "A classic hop-and-dodge mechanic game built around clear cues and meaningful decision-making under time constraints.",
         student: "Azhaan Shaikh, Shlok, Harshit Shah, Sameeran",
-        pdf: "./assets/docs/CHANGELOG - Azhaan Shaikh.md",
+        pdf: "./assets/docs/azhaan-shaikh.md",
         path: "./froggy-main/index.html"
     },
     {
@@ -21,7 +21,7 @@ const games = [
         title: "Something Lurks",
         description: "A blind navigation experience where players map a sewer using only sound.",
         student: "Tanishk Karale, Akshat Bachal, Aditya Jhadav",
-        pdf: "./assets/docs/Concept Overview - Akshat Bachal.pdf",
+        pdf: "./assets/docs/akshat-bachal.pdf",
         path: "./Something Lurks/index.html"
     },
     {
@@ -29,7 +29,7 @@ const games = [
         title: "Memory Basket",
         description: "A memory-based game exploring game mechanics and cognitive challenges.",
         student: "Iqra Hamdule, Tanvi Umbre, Zahabiya Unwalla",
-        pdf: "./assets/docs/game design - Iqra Ali Hamdule.pdf",
+        pdf: "./assets/docs/iqra-hamdule.pdf",
         path: "./Memory basket/index.html"
     },
 
@@ -38,7 +38,7 @@ const games = [
         title: "Before the Lawyer",
         description: "An interrogation game exploring branching narratives and player choices.",
         student: "Mrudula Tiwaskar, Rahi Waikar, Srushti Gaware, Sejal Patel",
-        pdf: "./assets/docs/Digital Game Design - Mrudula Tiwaskar.pdf",
+        pdf: "./assets/docs/mrudula-tiwaskar.pdf",
         path: "./Before the Lawyer/index.html"
     },
     {
@@ -46,7 +46,7 @@ const games = [
         title: "Logic is Two",
         description: "A cooperative puzzle game emphasizing dual-character logic and teamwork.",
         student: "Mayank Sahu",
-        pdf: "./assets/docs/Game Design UX - Mayank Sahu(1).pdf",
+        pdf: "./assets/docs/mayank-sahu.pdf",
         path: "./Logic is Two/Final game.html"
     },
     {
@@ -54,7 +54,7 @@ const games = [
         title: "Queue Up",
         description: "A low-stimulation, logic-based puzzle game where players arrange characters in a queue.",
         student: "Akshita Jain",
-        pdf: "./assets/docs/digitalgamedesign - Akshita Jain.pdf",
+        pdf: "./assets/docs/akshita-jain.pdf",
         path: "./queue up/index.html"
     }
 ];
