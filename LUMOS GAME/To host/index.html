@@ -131,18 +131,34 @@
 	<script>
 
     (function() {
-        //Initialization
-        var game = new gdjs.RuntimeGame(gdjs.projectData, {});
+        var overlay = document.createElement('div');
+        overlay.style.position = 'absolute';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100vw';
+        overlay.style.height = '100vh';
+        overlay.style.backgroundColor = '#000000';
+        overlay.style.color = '#ffffff';
+        overlay.style.display = 'flex';
+        overlay.style.alignItems = 'center';
+        overlay.style.justifyContent = 'center';
+        overlay.style.fontFamily = 'sans-serif';
+        overlay.style.fontSize = '24px';
+        overlay.style.zIndex = '999999';
+        overlay.style.cursor = 'pointer';
+        overlay.innerHTML = 'Click anywhere to start';
+        document.body.appendChild(overlay);
 
-        //Create a renderer
-        game.getRenderer().createStandardCanvas(document.body);
-
-        //Bind keyboards/mouse/touch events
-        game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
-
-        //Load all assets and start the game
-        game.loadAllAssets(function() {
-            game.startGameLoop();
+        overlay.addEventListener('click', function() {
+            overlay.remove();
+            
+            //Initialization
+            var game = new gdjs.RuntimeGame(gdjs.projectData, {});
+            game.getRenderer().createStandardCanvas(document.body);
+            game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
+            game.loadAllAssets(function() {
+                game.startGameLoop();
+            });
         });
     })();
 
