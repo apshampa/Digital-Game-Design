@@ -1,7 +1,3 @@
-Here is the revised content for your teaching portfolio, rewritten from a first-person perspective to highlight your personal approach and philosophy.
-
-***
-
 # Course Title: Creating Video Games – The Duet of Game Design
 
 ## 📖 My Course Philosophy & Overview
