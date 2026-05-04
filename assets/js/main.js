@@ -28,7 +28,7 @@ const games = [
         id: "memory-basket",
         title: "Memory Basket",
         description: "A memory-based game exploring game mechanics and cognitive challenges.",
-        student: "Iqra Hamdule, Tanvi Umbre, Zahabiya Unwalla",
+        student: "Iqra Hamdule, Tanvi Umbre, Zahabiya Unwalla, Shruti Chongad",
         pdf: "./assets/docs/iqra-hamdule.pdf",
         path: "./Memory basket/index.html"
     },
@@ -45,7 +45,7 @@ const games = [
         id: "logic-is-two",
         title: "Logic is Two",
         description: "A cooperative puzzle game emphasizing dual-character logic and teamwork.",
-        student: "Mayank Sahu",
+        student: "Mayank Sahu, Ayushi Dhuware",
         pdf: "./assets/docs/mayank-sahu.pdf",
         path: "./Logic is Two/Final game.html"
     },
@@ -53,7 +53,7 @@ const games = [
         id: "queue-up",
         title: "Queue Up",
         description: "A low-stimulation, logic-based puzzle game where players arrange characters in a queue.",
-        student: "Akshita Jain",
+        student: "Akshita Jain, Sneha Khanvilkar, Aarush Maadan, Ayantika Dhar",
         pdf: "./assets/docs/akshita-jain.pdf",
         path: "./queue up/index.html"
     }
