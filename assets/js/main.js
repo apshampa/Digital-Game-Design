@@ -45,7 +45,7 @@ const games = [
         id: "logic-is-two",
         title: "Logic is Two",
         description: "A cooperative puzzle game emphasizing dual-character logic and teamwork.",
-        student: "Mayank Sahu, Ayushi Dhuware",
+        student: "Mayank Sahu, Ayushi Dhuware, Vedanti",
         pdf: "./assets/docs/mayank-sahu.pdf",
         path: "./Logic is Two/Final game.html"
     },
