@@ -12,7 +12,7 @@ const games = [
         id: "froggy",
         title: "Froggy",
         description: "A classic hop-and-dodge mechanic game built around clear cues and meaningful decision-making under time constraints.",
-        student: "Azhaan Shaikh, Shlok, Harshit Shah, Sameeran",
+        student: "Azhaan Shaikh, Shlok, Harshit, Sameeran",
         pdf: "./assets/docs/azhaan-shaikh.md",
         path: "./froggy-main/index.html"
     },
